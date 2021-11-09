@@ -21,4 +21,13 @@ class ProgrammeHandler {
         println(programmeList)
     }
 
+    fun getProgramme(pCode: String): Programme? {
+        for (programme in programmeList){
+            if (programme.code == pCode) {
+                return programme
+            }
+        }
+        return null
+    }
+
 }

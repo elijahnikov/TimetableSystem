@@ -2,10 +2,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
+import java.util.ArrayList;
 
 public class ManageModuleGUI {
 
@@ -16,19 +14,41 @@ public class ManageModuleGUI {
             public void actionPerformed(ActionEvent e) {
 
                 //check if input fields are empty
-                if (codeField.getText().equals("") || nameField.getText().equals("")){
+                if (codeField.getText().equals("") || nameField.getText().equals("") || programmeSelect.getSelectedItem() == null){
                     JOptionPane.showMessageDialog(mainPanel,
                             "Please ensure all fields are filled.",
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
                 } else {
-                    moduleCode = codeField.getText();
-                    moduleName = nameField.getText();
-                    programme = String.valueOf(programmeSelect.getSelectedItem());
-                    term = String.valueOf(termSelect.getSelectedItem());
-                    year = (Integer) yearSelect.getSelectedItem();
 
-                    model.addRow(new Object[]{moduleName, moduleCode, programme, term, year});
+                    //get programme class instance from jcombobox select
+                    p = ph.getProgramme(programmeSelect.getSelectedItem().toString());
+                    String programmeCode = null;
+                    if (p != null) {
+                        programmeCode = p.getCode();
+                    }
+
+                    //create module instance
+                    m = mh.createModule(
+                            p,
+                            nameField.getText(),
+                            codeField.getText(),
+                            termSelect.getSelectedIndex() + 1,
+                            Integer.parseInt(String.valueOf(yearSelect.getSelectedItem()))
+                    );
+
+                    //add instance to list of modules
+                    mh.addModule(m);
+
+                    //add instance details to table
+                    model.addRow(new Object[]{
+                            mh.getModuleList().get(mh.getModuleList().size()-1).toString().replace("Module@", ""),
+                            mh.getModuleList().get(mh.getModuleList().size()-1).getCode(),
+                            mh.getModuleList().get(mh.getModuleList().size()-1).getName(),
+                            programmeCode,
+                            mh.getModuleList().get(mh.getModuleList().size()-1).getTerm(),
+                            mh.getModuleList().get(mh.getModuleList().size()-1).getYear()
+                    });
 
                 }
 
@@ -137,7 +157,9 @@ public class ManageModuleGUI {
     }
 
     Module m;
+    Programme p;
     ModuleHandler mh = new ModuleHandler();
+    ProgrammeHandler ph = ManageProgrammeGUI.ph;
 
     //variable declarations
     GridBagConstraints mainc = new GridBagConstraints();
@@ -157,8 +179,8 @@ public class ManageModuleGUI {
     JTextField codeField = new JTextField();
     JLabel codeLbl = new JLabel("Module Code");
 
-    String[] programmes = {};
-    JComboBox<String> programmeSelect = new JComboBox<>(programmes);
+    public static DefaultComboBoxModel selectModel = new DefaultComboBoxModel();
+    JComboBox programmeSelect = new JComboBox(selectModel);
     JLabel programmeLbl = new JLabel("Programme");
 
     String[] terms = {"Term 1: Sep-Dec", "Term 2: Jan-Apr"};

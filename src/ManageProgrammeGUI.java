@@ -18,7 +18,7 @@ public class ManageProgrammeGUI {
             public void actionPerformed(ActionEvent e) {
 
                 //check if input fields are empty
-                if (codeField.getText().equals("") || nameField.getText().equals("")){
+                if (codeField.getText().equals("") || nameField.getText().equals("") || (!postBtn.isSelected() && !underBtn.isSelected())){
                     JOptionPane.showMessageDialog(mainPanel,
                             "Please ensure all fields are filled.",
                             "Error",
@@ -30,13 +30,17 @@ public class ManageProgrammeGUI {
                         type = "Undergraduate";
                     }
 
+                    //create programme instance
                     p = ph.createProgramme(
                             nameField.getText(),
                             codeField.getText(),
                             type
                     );
+
+                    //add instance to list of programmes
                     ph.addProgramme(p);
 
+                    //add instance details to table
                     model.addRow(new Object[]{
                             ph.getProgrammeList().get(ph.getProgrammeList().size()-1).toString().replace("Programme@", ""),
                             ph.getProgrammeList().get(ph.getProgrammeList().size()-1).getCode(),
@@ -44,6 +48,9 @@ public class ManageProgrammeGUI {
                             ph.getProgrammeList().get(ph.getProgrammeList().size()-1).getType(),
                             ""
                     });
+
+                    //add programme codes from instance to combobox in module class
+                    ManageModuleGUI.selectModel.addElement(ph.getProgrammeList().get(ph.getProgrammeList().size()-1).getCode());
 
                 }
 
@@ -143,7 +150,7 @@ public class ManageProgrammeGUI {
     }
 
     Programme p;
-    ProgrammeHandler ph = new ProgrammeHandler();
+    public static ProgrammeHandler ph = new ProgrammeHandler();
 
     //variable declarations
     GridBagConstraints mainc = new GridBagConstraints();
