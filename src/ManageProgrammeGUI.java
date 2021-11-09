@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 public class ManageProgrammeGUI {
 
     public JComponent programmeGUIHandler(){
-        //test
+
         //button action(s)
         underBtn.setActionCommand("Undergraduate");
         postBtn.setActionCommand("Postgraduate");
