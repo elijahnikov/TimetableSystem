@@ -29,30 +29,27 @@ public class ManageProgrammeGUI {
                     } else if (underBtn.isSelected()){
                         type = "Undergraduate";
                     }
-                    programmeCode = codeField.getText();
-                    programmeName = nameField.getText();
 
-                    model.addRow(new Object[]{"TEMPID", "", "", "", ""});
+                    p = ph.createProgramme(
+                            nameField.getText(),
+                            codeField.getText(),
+                            type
+                    );
+                    ph.addProgramme(p);
+
+                    model.addRow(new Object[]{
+                            ph.getProgrammeList().get(ph.getProgrammeList().size()-1).toString().replace("Programme@", ""),
+                            ph.getProgrammeList().get(ph.getProgrammeList().size()-1).getCode(),
+                            ph.getProgrammeList().get(ph.getProgrammeList().size()-1).getName(),
+                            ph.getProgrammeList().get(ph.getProgrammeList().size()-1).getType(),
+                            ""
+                    });
 
                 }
 
-                p = ph.createProgramme(
-                        nameField.getText(),
-                        codeField.getText(),
-                        "Postgraduate"
-                );
-
-                ph.addProgramme(p);
-            }
-        });
-
-        testBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
             }
         });
-
 
         //sizing
         centerPanel.setMinimumSize(new Dimension(300, 350));
@@ -131,10 +128,6 @@ public class ManageProgrammeGUI {
         topc.gridy = 4;
         topPanel.add(addBtn, topc);
 
-        topc.gridx = 2;
-        topc.gridy = 4;
-        topPanel.add(testBtn, topc);
-
         //center panel layout-------------------------------------------
         centerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         model = new DefaultTableModel(null, column);
@@ -163,7 +156,6 @@ public class ManageProgrammeGUI {
     JScrollPane tableScroll;
 
     JButton addBtn = new JButton("Add");
-    JButton testBtn = new JButton("Test");
 
     JTextField nameField = new JTextField();
     JLabel nameLbl = new JLabel("Programme Name");
