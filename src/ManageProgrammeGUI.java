@@ -2,8 +2,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ManageProgrammeGUI {
 
@@ -13,49 +11,48 @@ public class ManageProgrammeGUI {
         underBtn.setActionCommand("Undergraduate");
         postBtn.setActionCommand("Postgraduate");
 
-        addBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        addBtn.addActionListener(e -> {
 
-                //check if input fields are empty
-                if (codeField.getText().equals("") || nameField.getText().equals("") || (!postBtn.isSelected() && !underBtn.isSelected())){
-                    JOptionPane.showMessageDialog(mainPanel,
-                            "Please ensure all fields are filled.",
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                } else {
-                    if (postBtn.isSelected()) {
-                        type = "Postgraduate";
-                    } else if (underBtn.isSelected()){
-                        type = "Undergraduate";
-                    }
 
-                    //create programme instance
-                    p = ph.createProgramme(
-                            nameField.getText(),
-                            codeField.getText(),
-                            type
-                    );
 
-                    //add instance to list of programmes
-                    ph.addProgramme(p);
-
-                    //add instance details to table
-                    model.addRow(new Object[]{
-                            ph.getProgrammeList().get(ph.getProgrammeList().size()-1).toString().replace("Programme@", ""),
-                            ph.getProgrammeList().get(ph.getProgrammeList().size()-1).getCode(),
-                            ph.getProgrammeList().get(ph.getProgrammeList().size()-1).getName(),
-                            ph.getProgrammeList().get(ph.getProgrammeList().size()-1).getType(),
-                            ""
-                    });
-
-                    //add programme codes from instance to combobox in module class
-                    ManageModuleGUI.selectModel.addElement(ph.getProgrammeList().get(ph.getProgrammeList().size()-1).getCode());
-
+            //check if input fields are empty
+            if (codeField.getText().equals("") || nameField.getText().equals("") || (!postBtn.isSelected() && !underBtn.isSelected())){
+                JOptionPane.showMessageDialog(mainPanel,
+                        "Please ensure all fields are filled.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            } else {
+                if (postBtn.isSelected()) {
+                    type = "Postgraduate";
+                } else if (underBtn.isSelected()){
+                    type = "Undergraduate";
                 }
 
+                //create programme instance
+                p = ph.createProgramme(
+                        nameField.getText(),
+                        codeField.getText(),
+                        type
+                );
+
+                //add instance to list of programmes
+                ph.addProgramme(p);
+
+                //add instance details to table
+                model.addRow(new Object[]{
+                        ph.getProgrammeList().get(ph.getProgrammeList().size()-1).toString().replace("Programme@", ""),
+                        ph.getProgrammeList().get(ph.getProgrammeList().size()-1).getCode(),
+                        ph.getProgrammeList().get(ph.getProgrammeList().size()-1).getName(),
+                        ph.getProgrammeList().get(ph.getProgrammeList().size()-1).getType(),
+                        ""
+                });
+
+                //add programme codes from instance to combobox in module class
+                ManageModuleGUI.selectModel.addElement(ph.getProgrammeList().get(ph.getProgrammeList().size()-1).getCode());
 
             }
+
+
         });
 
         //sizing

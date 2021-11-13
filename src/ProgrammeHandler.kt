@@ -17,10 +17,6 @@ class ProgrammeHandler {
         programmeList.add(programme);
     }
 
-    fun printProgramme(){
-        println(programmeList)
-    }
-
     fun getProgramme(pCode: String): Programme? {
         for (programme in programmeList){
             if (programme.code == pCode) {

@@ -9,51 +9,50 @@ public class ManageModuleGUI {
 
     public JComponent moduleGUIHandler(){
 
-        addBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        addBtn.addActionListener(e -> {
 
-                //check if input fields are empty
-                if (codeField.getText().equals("") || nameField.getText().equals("") || programmeSelect.getSelectedItem() == null){
-                    JOptionPane.showMessageDialog(mainPanel,
-                            "Please ensure all fields are filled.",
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                } else {
+            //check if input fields are empty
+            if (codeField.getText().equals("") || nameField.getText().equals("") || programmeSelect.getSelectedItem() == null){
+                JOptionPane.showMessageDialog(mainPanel,
+                        "Please ensure all fields are filled.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            } else {
 
-                    //get programme class instance from jcombobox select
-                    p = ph.getProgramme(programmeSelect.getSelectedItem().toString());
-                    String programmeCode = null;
-                    if (p != null) {
-                        programmeCode = p.getCode();
-                    }
-
-                    //create module instance
-                    m = mh.createModule(
-                            p,
-                            nameField.getText(),
-                            codeField.getText(),
-                            termSelect.getSelectedIndex() + 1,
-                            Integer.parseInt(String.valueOf(yearSelect.getSelectedItem()))
-                    );
-
-                    //add instance to list of modules
-                    mh.addModule(m);
-
-                    //add instance details to table
-                    model.addRow(new Object[]{
-                            mh.getModuleList().get(mh.getModuleList().size()-1).toString().replace("Module@", ""),
-                            mh.getModuleList().get(mh.getModuleList().size()-1).getCode(),
-                            mh.getModuleList().get(mh.getModuleList().size()-1).getName(),
-                            programmeCode,
-                            mh.getModuleList().get(mh.getModuleList().size()-1).getTerm(),
-                            mh.getModuleList().get(mh.getModuleList().size()-1).getYear()
-                    });
-
+                //get programme class instance from jcombobox select
+                p = ph.getProgramme(programmeSelect.getSelectedItem().toString());
+                String programmeCode = null;
+                if (p != null) {
+                    programmeCode = p.getCode();
                 }
 
+                //create module instance
+                m = mh.createModule(
+                        p,
+                        nameField.getText(),
+                        codeField.getText(),
+                        termSelect.getSelectedIndex() + 1,
+                        Integer.parseInt(String.valueOf(yearSelect.getSelectedItem()))
+                );
 
+                //add instance to list of modules
+                mh.addModule(m);
+
+                //add instance details to table
+                model.addRow(new Object[]{
+                        mh.getModuleList().get(mh.getModuleList().size()-1).toString().replace("Module@", ""),
+                        mh.getModuleList().get(mh.getModuleList().size()-1).getCode(),
+                        mh.getModuleList().get(mh.getModuleList().size()-1).getName(),
+                        programmeCode,
+                        mh.getModuleList().get(mh.getModuleList().size()-1).getTerm(),
+                        mh.getModuleList().get(mh.getModuleList().size()-1).getYear()
+                });
+
+                //add module codes from instance to combobox in activity class
+                ManageActivityGUI.selectModel.addElement(mh.getModuleList().get(mh.getModuleList().size()-1).getCode());
             }
+
+
         });
 
         //sizing
@@ -158,7 +157,7 @@ public class ManageModuleGUI {
 
     Module m;
     Programme p;
-    ModuleHandler mh = new ModuleHandler();
+    public static ModuleHandler mh = new ModuleHandler();
     ProgrammeHandler ph = ManageProgrammeGUI.ph;
 
     //variable declarations
