@@ -13,8 +13,6 @@ public class ManageProgrammeGUI {
 
         addBtn.addActionListener(e -> {
 
-
-
             //check if input fields are empty
             if (codeField.getText().equals("") || nameField.getText().equals("") || (!postBtn.isSelected() && !underBtn.isSelected())){
                 JOptionPane.showMessageDialog(mainPanel,
@@ -41,15 +39,14 @@ public class ManageProgrammeGUI {
                 //add instance details to table
                 model.addRow(new Object[]{
                         ph.getProgrammeList().get(ph.getProgrammeList().size()-1).toString().replace("Programme@", ""),
-                        ph.getProgrammeList().get(ph.getProgrammeList().size()-1).getCode(),
                         ph.getProgrammeList().get(ph.getProgrammeList().size()-1).getName(),
+                        ph.getProgrammeList().get(ph.getProgrammeList().size()-1).getCode(),
                         ph.getProgrammeList().get(ph.getProgrammeList().size()-1).getType(),
                         ""
                 });
 
                 //add programme codes from instance to combobox in module class
                 ManageModuleGUI.selectModel.addElement(ph.getProgrammeList().get(ph.getProgrammeList().size()-1).getCode());
-
             }
 
 
@@ -174,12 +171,8 @@ public class ManageProgrammeGUI {
 
     JTable table;
     DefaultTableModel model;
-    String[] column = {"ID", "Programme Code", "Programme Name", "Type", ""};
+    String[] column = {"ID", "Programme Name", "Programme Code", "Type", "Timetable"};
 
     TimetableGUI tg = new TimetableGUI();
-
-    //user inputs
-    String programmeName;
-    String programmeCode;
     String type;
 }

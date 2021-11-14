@@ -4,13 +4,14 @@ class ActivityHandler {
         modules: Modules,
         room: String,
         type: String,
+        moduleCode: String,
         start: String,
         end: String,
         day: String,
     ): Activity {
 
         return Activity(
-            modules, room, type, start, end, day
+            modules, room, type, moduleCode, start, end, day
         )
     }
 

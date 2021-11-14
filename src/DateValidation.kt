@@ -40,10 +40,7 @@ class DateValidation {
         } else {
             "$time"
         }
-
-        println("test $endHour:$timeFormat")
-
-        return ""
+        return "$endHour:$timeFormat"
 
     }
 

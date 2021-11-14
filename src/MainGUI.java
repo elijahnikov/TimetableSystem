@@ -9,7 +9,7 @@ public class MainGUI {
         saveToFileItem.addActionListener(e -> {
 
             try  {
-                Persistence fileP = new FilePersistence();
+                fileP = new FilePersistence();
 
                 fileP.save(
                         ManageProgrammeGUI.ph.getProgrammeList(),
@@ -17,7 +17,7 @@ public class MainGUI {
                         ManageActivityGUI.ah.getActivityList()
                 );
 
-            } catch (NullPointerException ex){
+            } catch (Exception ex){
                 ex.printStackTrace();
             }
 
@@ -25,6 +25,23 @@ public class MainGUI {
 
         saveToDBItem.addActionListener(e -> {
 
+        });
+
+        loadFromFileItem.addActionListener(e -> {
+
+            try {
+                fileP = new FilePersistence();
+
+                fileP.load(
+                        "programmes.csv",
+                        "modules.csv",
+                        "activities.csv"
+                );
+                System.out.println("Present Project Directory : "+ System.getProperty("user.dir"));
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         });
 
         exitItem.addActionListener(e -> {
@@ -37,9 +54,11 @@ public class MainGUI {
         frame.add(tabbedPane);
 
         menuBar.add(fileMenu);
+        menuBar.add(editMenu);
 
         fileMenu.add(saveToFileItem);
         fileMenu.add(exitItem);
+        editMenu.add(loadFromFileItem);
 
         frame.setJMenuBar(menuBar);
 
@@ -57,9 +76,11 @@ public class MainGUI {
 
     private JMenuBar menuBar = new JMenuBar();
     private JMenu fileMenu = new JMenu("File");
+    private JMenu editMenu = new JMenu("Edit");
     private JMenuItem saveToFileItem = new JMenuItem("Save to File");
     private JMenuItem saveToDBItem = new JMenuItem("Save to DB");
     private JMenuItem exitItem = new JMenuItem("Exit");
+    private JMenuItem loadFromFileItem = new JMenuItem("Load from File");
 
     private JFrame frame = new JFrame("Timetable System");
     private ManageProgrammeGUI mgh = new ManageProgrammeGUI();
@@ -70,5 +91,6 @@ public class MainGUI {
     private JComponent manageActivityPanel = mag.activityGUIHandler();
     private JLabel textLbl = new JLabel("test");
 
+    private Persistence fileP;
 
 }

@@ -14,4 +14,10 @@ abstract class Persistence {
         activityList: MutableList<Activity>
     )
 
+    abstract fun load(
+        programmePath: String,
+        modulePath: String,
+        activityPath: String
+    )
+
 }

@@ -4,12 +4,13 @@ class ModuleHandler {
         programme: Programme,
         name: String,
         code: String,
+        programmeCode: String,
         term: Int,
         year: Int,
     ): Modules {
 
         return Modules(
-            programme, name, code, term, year
+            programme, name, code, programmeCode, term, year
         )
     }
 

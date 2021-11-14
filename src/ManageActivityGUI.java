@@ -43,6 +43,7 @@ public class ManageActivityGUI {
                         m,
                         roomField.getText(),
                         typeSelect.getSelectedItem().toString(),
+                        moduleCode,
                         dateInput,
                         val.getEndTime(hour, min, length),
                         daySelect.getSelectedItem().toString()
@@ -58,13 +59,11 @@ public class ManageActivityGUI {
                         ah.getActivityList().get(ah.getActivityList().size()-1).toString().replace("Activity@", ""),
                         ah.getActivityList().get(ah.getActivityList().size()-1).getRoom(),
                         ah.getActivityList().get(ah.getActivityList().size()-1).getType(),
-                        moduleCode,
+                        ah.getActivityList().get(ah.getActivityList().size()-1).getModuleCode(),
                         ah.getActivityList().get(ah.getActivityList().size()-1).getStart(),
                         ah.getActivityList().get(ah.getActivityList().size()-1).getEnd(),
                         ah.getActivityList().get(ah.getActivityList().size()-1).getDay()
                 });
-
-                System.out.println("here");
             }
 
             System.out.println(dateInput);
@@ -74,11 +73,11 @@ public class ManageActivityGUI {
         spinner.setEditor(de);
 
         //sizing
-        centerPanel.setMinimumSize(new Dimension(300, 350));
+        centerPanel.setMinimumSize(new Dimension(300, 330));
         centerPanel.setMaximumSize(centerPanel.getMinimumSize());
         centerPanel.setPreferredSize(centerPanel.getMinimumSize());
 
-        topPanel.setMinimumSize(new Dimension(500, 250));
+        topPanel.setMinimumSize(new Dimension(500, 270));
         topPanel.setMaximumSize(topPanel.getMinimumSize());
         topPanel.setPreferredSize(topPanel.getMinimumSize());
 

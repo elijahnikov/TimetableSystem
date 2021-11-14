@@ -2,14 +2,14 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.*;
 
 public class TimetableGUI {
 
     public void createGUI(){
 
-        model = new DefaultTableModel(null, days) {};
-        timetable = new JTable(model);
+        DefaultTableModel model = new DefaultTableModel(null, days) {
+        };
+        JTable timetable = new JTable(model);
 
         timetable.getColumnModel().getColumn(0).setPreferredWidth(5);
         timetable.getColumnModel().getColumn(1).setPreferredWidth(200);
@@ -38,8 +38,8 @@ public class TimetableGUI {
                     }
                 });
 
-        for (int i = 0; i < times.length; i++){
-            model.addRow(new Object[] { times[i] });
+        for (String time : times) {
+            model.addRow(new Object[]{time});
         }
 
         model.setValueAt("COMP1814 (Lab)", 2, 2);
@@ -52,16 +52,10 @@ public class TimetableGUI {
         model.setValueAt("COMP2814 (Lecture)", 7, 5);
         model.setValueAt("COMP2814 (Lecture)", 8, 5);
 
-        manageItem.addActionListener(e -> {
-            MainGUI mmg = new MainGUI();
-        });
-
         menuBar.add(fileMenu);
-        menuBar.add(manageMenu);
         menuBar.add(viewMenu);
 
         fileMenu.add(exitItem);
-        manageMenu.add(manageItem);
 
         ButtonGroup viewGroup = new ButtonGroup();
         viewGroup.add(viewByTermItem);
@@ -79,25 +73,18 @@ public class TimetableGUI {
         frame.setVisible(true);
     }
 
-    private JFrame frame = new JFrame("Timetable Management System");
-    private JPanel mainPanel = new JPanel();
-    private JMenuBar menuBar = new JMenuBar();
-    private JMenu fileMenu = new JMenu("File");
-    private JMenu manageMenu = new JMenu("Manage");
-    private JMenu viewMenu = new JMenu("View");
+    private final JFrame frame = new JFrame("Timetable Management System");
+    private final JPanel mainPanel = new JPanel();
+    private final JMenuBar menuBar = new JMenuBar();
+    private final JMenu fileMenu = new JMenu("File");
+    private final JMenu viewMenu = new JMenu("View");
 
-    private JMenuItem exitItem = new JMenuItem("Exit");
-    private JMenuItem manageItem = new JMenuItem("Manage Programmes/Modules/Activities");
-    private JRadioButtonMenuItem viewByYearItem = new JRadioButtonMenuItem("View by Year");
-    private JRadioButtonMenuItem viewByTermItem = new JRadioButtonMenuItem("View by Term");
-    private String[] times = {"09:00","09:30","10:00","10:30","11:00","11:30","12:00",
+    private final JMenuItem exitItem = new JMenuItem("Exit");
+    private final JRadioButtonMenuItem viewByYearItem = new JRadioButtonMenuItem("View by Year");
+    private final JRadioButtonMenuItem viewByTermItem = new JRadioButtonMenuItem("View by Term");
+    private final String[] times = {"09:00","09:30","10:00","10:30","11:00","11:30","12:00",
             "12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30",
             "17:00","17:30","18:00","18:30","19:00","19:30","20:00","20:30","21:00"};
-    private String[] days = {"", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
-    private JTable timetable;
-    private DefaultTableModel model;
-    private JTable headerTable;
-
-
+    private final String[] days = {"", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
 
 }

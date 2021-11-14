@@ -29,6 +29,7 @@ public class ManageModuleGUI {
                         p,
                         nameField.getText(),
                         codeField.getText(),
+                        programmeCode,
                         termSelect.getSelectedIndex() + 1,
                         Integer.parseInt(String.valueOf(yearSelect.getSelectedItem()))
                 );
@@ -38,10 +39,10 @@ public class ManageModuleGUI {
 
                 //add instance details to table
                 model.addRow(new Object[]{
-                        mh.getModulesList().get(mh.getModulesList().size()-1).toString().replace("Module@", ""),
-                        mh.getModulesList().get(mh.getModulesList().size()-1).getCode(),
+                        mh.getModulesList().get(mh.getModulesList().size()-1).toString().replace("Modules@", ""),
                         mh.getModulesList().get(mh.getModulesList().size()-1).getName(),
-                        programmeCode,
+                        mh.getModulesList().get(mh.getModulesList().size()-1).getCode(),
+                        mh.getModulesList().get(mh.getModulesList().size()-1).getProgrammeCode(),
                         mh.getModulesList().get(mh.getModulesList().size()-1).getTerm(),
                         mh.getModulesList().get(mh.getModulesList().size()-1).getYear()
                 });
@@ -190,7 +191,7 @@ public class ManageModuleGUI {
 
     JTable table;
     DefaultTableModel model;
-    String[] column = {"ID", "Module Code", "Module Name", "Programme", "Term", "Year"};
+    String[] column = {"ID", "Module Name", "Module Code", "Programme", "Term", "Year"};
 
     TimetableGUI tg = new TimetableGUI();
 
