@@ -1,5 +1,5 @@
 class Activity (
-    module: Module,
+    modules: Modules,
     var room: String,
     var type: String,
     var start: String,
@@ -8,7 +8,7 @@ class Activity (
     ) {
 
     init {
-        module.activities.add(this)
+        modules.activities.add(this)
     }
 
 }

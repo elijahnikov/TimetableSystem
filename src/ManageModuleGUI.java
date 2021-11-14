@@ -2,8 +2,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
 
 public class ManageModuleGUI {
 
@@ -40,16 +38,16 @@ public class ManageModuleGUI {
 
                 //add instance details to table
                 model.addRow(new Object[]{
-                        mh.getModuleList().get(mh.getModuleList().size()-1).toString().replace("Module@", ""),
-                        mh.getModuleList().get(mh.getModuleList().size()-1).getCode(),
-                        mh.getModuleList().get(mh.getModuleList().size()-1).getName(),
+                        mh.getModulesList().get(mh.getModulesList().size()-1).toString().replace("Module@", ""),
+                        mh.getModulesList().get(mh.getModulesList().size()-1).getCode(),
+                        mh.getModulesList().get(mh.getModulesList().size()-1).getName(),
                         programmeCode,
-                        mh.getModuleList().get(mh.getModuleList().size()-1).getTerm(),
-                        mh.getModuleList().get(mh.getModuleList().size()-1).getYear()
+                        mh.getModulesList().get(mh.getModulesList().size()-1).getTerm(),
+                        mh.getModulesList().get(mh.getModulesList().size()-1).getYear()
                 });
 
                 //add module codes from instance to combobox in activity class
-                ManageActivityGUI.selectModel.addElement(mh.getModuleList().get(mh.getModuleList().size()-1).getCode());
+                ManageActivityGUI.selectModel.addElement(mh.getModulesList().get(mh.getModulesList().size()-1).getCode());
             }
 
 
@@ -155,7 +153,7 @@ public class ManageModuleGUI {
         return mainPanel;
     }
 
-    Module m;
+    Modules m;
     Programme p;
     public static ModuleHandler mh = new ModuleHandler();
     ProgrammeHandler ph = ManageProgrammeGUI.ph;

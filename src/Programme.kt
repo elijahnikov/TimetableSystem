@@ -2,7 +2,7 @@ class Programme (
     var name: String,
     var code: String,
     var type: String,
-    val modules: MutableList<Module> = mutableListOf()
+    val modules: MutableList<Modules> = mutableListOf()
     ) {
 
     val length: Int = if (type == "Postgraduate"){

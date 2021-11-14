@@ -47,7 +47,7 @@ class DateValidation {
 
     }
 
-    fun compareDates(hour: Int, time: Int, programmeList: List<Programme>, moduleList: List<Module>, activityList: List<Activity>){
+    fun compareDates(hour: Int, time: Int, programmeList: List<Programme>, modulesList: List<Modules>, activityList: List<Activity>){
 
     }
 

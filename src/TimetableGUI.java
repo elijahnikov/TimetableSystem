@@ -52,11 +52,8 @@ public class TimetableGUI {
         model.setValueAt("COMP2814 (Lecture)", 7, 5);
         model.setValueAt("COMP2814 (Lecture)", 8, 5);
 
-        manageItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                MainGUI mmg = new MainGUI();
-            }
+        manageItem.addActionListener(e -> {
+            MainGUI mmg = new MainGUI();
         });
 
         menuBar.add(fileMenu);

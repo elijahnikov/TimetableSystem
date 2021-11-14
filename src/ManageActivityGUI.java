@@ -15,9 +15,9 @@ public class ManageActivityGUI {
         addBtn.addActionListener(e -> {
 
             String dateInput = de.getFormat().format(spinner.getValue());
-            Integer hour = Integer.parseInt(dateInput.substring(0, 2));
-            Integer min = Integer.parseInt(dateInput.substring(3, 5));
-            Integer length = lengthSelect.getSelectedIndex() + 1;
+            int hour = Integer.parseInt(dateInput.substring(0, 2));
+            int min = Integer.parseInt(dateInput.substring(3, 5));
+            int length = lengthSelect.getSelectedIndex() + 1;
 
             if (roomField.getText().equals("")){
                 JOptionPane.showMessageDialog(mainPanel,
@@ -177,9 +177,9 @@ public class ManageActivityGUI {
     }
 
     Activity a;
-    ActivityHandler ah = new ActivityHandler();
+    public static ActivityHandler ah = new ActivityHandler();
 
-    Module m;
+    Modules m;
 
     DateValidation val = new DateValidation();
 

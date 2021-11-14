@@ -1,4 +1,4 @@
-class Module (
+class Modules (
     programme: Programme,
     var name: String,
     var code: String,

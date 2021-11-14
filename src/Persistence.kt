@@ -1,3 +1,5 @@
+import java.lang.Module
+
 abstract class Persistence {
 
     companion object {
@@ -6,6 +8,10 @@ abstract class Persistence {
         fun createFilePersistence() = FilePersistence()
     }
 
-    abstract infix fun save(data: String)
+    abstract fun save(
+        programmeList: MutableList<Programme>,
+        moduleList: MutableList<Modules>,
+        activityList: MutableList<Activity>
+    )
 
 }

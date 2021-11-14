@@ -6,21 +6,21 @@ class ModuleHandler {
         code: String,
         term: Int,
         year: Int,
-    ): Module {
+    ): Modules {
 
-        return Module(
+        return Modules(
             programme, name, code, term, year
         )
     }
 
-    val moduleList: MutableList<Module> = mutableListOf()
+    val modulesList: MutableList<Modules> = mutableListOf()
 
-    fun addModule(module: Module) {
-        moduleList.add(module)
+    fun addModule(modules: Modules) {
+        modulesList.add(modules)
     }
 
-    fun getModule(mCode: String): Module? {
-        for (module in moduleList){
+    fun getModule(mCode: String): Modules? {
+        for (module in modulesList){
             if (module.code == mCode){
                 return module
             }

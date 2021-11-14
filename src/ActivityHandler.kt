@@ -1,7 +1,7 @@
 class ActivityHandler {
 
     fun createActivity(
-        module: Module,
+        modules: Modules,
         room: String,
         type: String,
         start: String,
@@ -10,7 +10,7 @@ class ActivityHandler {
     ): Activity {
 
         return Activity(
-            module, room, type, start, end, day
+            modules, room, type, start, end, day
         )
     }
 
