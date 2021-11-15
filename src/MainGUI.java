@@ -24,7 +24,17 @@ public class MainGUI {
         });
 
         saveToDBItem.addActionListener(e -> {
+            try {
+                dbP = new DBPersistence();
 
+                dbP.save(
+                        ManageProgrammeGUI.ph.getProgrammeList(),
+                        ManageModuleGUI.mh.getModulesList(),
+                        ManageActivityGUI.ah.getActivityList()
+                );
+            } catch (Exception ex){
+                ex.printStackTrace();
+            }
         });
 
         loadFromFileItem.addActionListener(e -> {
@@ -53,7 +63,10 @@ public class MainGUI {
         menuBar.add(editMenu);
 
         fileMenu.add(saveToFileItem);
+        fileMenu.add(saveToDBItem);
         fileMenu.add(exitItem);
+
+        editMenu.add(loadFromDBItem);
         editMenu.add(loadFromFileItem);
 
         frame.setJMenuBar(menuBar);
@@ -67,26 +80,30 @@ public class MainGUI {
 
     }
 
-    private ManageModuleGUI mmg = new ManageModuleGUI();
-    private ManageActivityGUI mag = new ManageActivityGUI();
+    private final ManageModuleGUI mmg = new ManageModuleGUI();
+    private final ManageActivityGUI mag = new ManageActivityGUI();
 
-    private JMenuBar menuBar = new JMenuBar();
-    private JMenu fileMenu = new JMenu("File");
-    private JMenu editMenu = new JMenu("Edit");
-    private JMenuItem saveToFileItem = new JMenuItem("Save to File");
-    private JMenuItem saveToDBItem = new JMenuItem("Save to DB");
-    private JMenuItem exitItem = new JMenuItem("Exit");
-    private JMenuItem loadFromFileItem = new JMenuItem("Load from File");
+    private final JMenuBar menuBar = new JMenuBar();
+    private final JMenu fileMenu = new JMenu("File");
+    private final JMenu editMenu = new JMenu("Edit");
 
-    private JFrame frame = new JFrame("Timetable System");
-    private ManageProgrammeGUI mgh = new ManageProgrammeGUI();
-    private JTabbedPane tabbedPane = new JTabbedPane();
-    private ManageProgrammeGUI mpg = new ManageProgrammeGUI();
-    private JComponent manageProgrammePanel = mpg.programmeGUIHandler();
-    private JComponent manageModulePanel = mmg.moduleGUIHandler();
-    private JComponent manageActivityPanel = mag.activityGUIHandler();
-    private JLabel textLbl = new JLabel("test");
+    private final JMenuItem saveToFileItem = new JMenuItem("Save to File");
+    private final JMenuItem saveToDBItem = new JMenuItem("Save to DB");
+    private final JMenuItem exitItem = new JMenuItem("Exit");
+
+    private final JMenuItem loadFromFileItem = new JMenuItem("Load from File");
+    private final JMenuItem loadFromDBItem = new JMenuItem("Load from DB");
+
+
+    private final JFrame frame = new JFrame("Timetable System");
+    private final JTabbedPane tabbedPane = new JTabbedPane();
+    private final ManageProgrammeGUI mpg = new ManageProgrammeGUI();
+    private final JComponent manageProgrammePanel = mpg.programmeGUIHandler();
+    private final JComponent manageModulePanel = mmg.moduleGUIHandler();
+    private final JComponent manageActivityPanel = mag.activityGUIHandler();
+    private final JLabel textLbl = new JLabel("test");
 
     private Persistence fileP;
+    private Persistence dbP;
 
 }

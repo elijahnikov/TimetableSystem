@@ -7,9 +7,7 @@ import java.util.*
 class FilePersistence: Persistence() {
 
     var p: Programme? = null
-
     var m: Modules? = null
-
     var a: Activity? = null
 
     //save data to file
@@ -89,32 +87,51 @@ class FilePersistence: Persistence() {
     override fun load() {
 
         loadProgrammes()
-        println(ManageProgrammeGUI.ph.programmeList)
         loadModules()
-        println(ManageModuleGUI.mh.modulesList)
         loadActivities()
-        println(ManageActivityGUI.ah.activityList)
-
-        //add loaded instances into table model(s)
 
         //add instance details to table
-        ManageProgrammeGUI.model.addRow(
-            arrayOf<Any>(
-
+        for (programme in ManageProgrammeGUI.ph.programmeList){
+            ManageProgrammeGUI.model.addRow(
+                arrayOf<Any>(
+                    programme.toString().replace("Programme@", ""),
+                    programme.name,
+                    programme.code,
+                    programme.type
+                )
             )
-        )
+            //add programme code to programme select in module gui
+            ManageModuleGUI.selectModel.addElement(programme.code)
+        }
 
-        ManageModuleGUI.model.addRow(
-            arrayOf<Any>(
-
+        for (module in ManageModuleGUI.mh.modulesList){
+            ManageModuleGUI.model.addRow(
+                arrayOf<Any>(
+                    module.toString().replace("Modules@", ""),
+                    module.name,
+                    module.code,
+                    module.programmeCode,
+                    module.term,
+                    module.year
+                )
             )
-        )
+            //add module code to module select in activity gui
+            ManageActivityGUI.selectModel.addElement(module.code)
+        }
 
-        ManageActivityGUI.model.addRow(
-            arrayOf<Any>(
-
+        for (activity in ManageActivityGUI.ah.activityList){
+            ManageActivityGUI.model.addRow(
+                arrayOf<Any>(
+                    activity.toString().replace("Activity@", ""),
+                    activity.room,
+                    activity.type,
+                    activity.moduleCode,
+                    activity.start,
+                    activity.end,
+                    activity.day
+                )
             )
-        )
+        }
     }
 
     //load programmes from programmes.csv
@@ -135,7 +152,6 @@ class FilePersistence: Persistence() {
 
                 //get each value from line
                 val entries = line.split(",").toTypedArray()
-                println(line)
                 programmeName = entries[0]
                 programmeCode = entries[1]
                 programmeType = entries[2]
@@ -170,7 +186,6 @@ class FilePersistence: Persistence() {
 
                 //get each value from line
                 val entries = line.split(",").toTypedArray()
-                println(line)
                 moduleName = entries[0]
                 moduleCode = entries[1]
                 programmeCode = entries[2]
@@ -213,7 +228,6 @@ class FilePersistence: Persistence() {
 
                 //get each value from line
                 val entries = line.split(",").toTypedArray()
-                println(line)
                 room = entries[0]
                 type = entries[1]
                 moduleCode = entries[2]
@@ -222,7 +236,7 @@ class FilePersistence: Persistence() {
                 day = entries[5]
 
                 //create new activity instances from given data in csv
-                //get module from module code and attach to module
+                //get module from module code and attach to activity
                 var m: Modules? = ManageModuleGUI.mh.getModule(moduleCode)
                 println("M: ${m?.name}")
                 a = m?.let {
