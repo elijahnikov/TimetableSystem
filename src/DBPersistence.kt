@@ -9,12 +9,7 @@ class DBPersistence: Persistence() {
 
     }
 
-    override fun load(
-        programmePath: String,
-        modulePath: String,
-        activityPath: String
-    )
-    {
+    override fun load() {
 
     }
 }

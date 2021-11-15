@@ -169,10 +169,10 @@ public class ManageProgrammeGUI {
     ButtonGroup typeGroup = new ButtonGroup();
     JLabel typeLbl = new JLabel("Type");
 
-    JTable table;
-    DefaultTableModel model;
+    public static JTable table;
+    public static DefaultTableModel model;
     String[] column = {"ID", "Programme Name", "Programme Code", "Type", "Timetable"};
 
-    TimetableGUI tg = new TimetableGUI();
+    //TimetableGUI tg = new TimetableGUI();
     String type;
 }

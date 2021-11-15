@@ -31,13 +31,9 @@ public class MainGUI {
 
             try {
                 fileP = new FilePersistence();
+                fileP.load();
 
-                fileP.load(
-                        "programmes.csv",
-                        "modules.csv",
-                        "activities.csv"
-                );
-                System.out.println("Present Project Directory : "+ System.getProperty("user.dir"));
+
 
             } catch (Exception ex) {
                 ex.printStackTrace();

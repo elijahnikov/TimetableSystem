@@ -10,6 +10,11 @@ class Modules (
 
     init {
         programme.modules.add(this)
+        println("Name = $name")
+        println("Code = $code")
+        println("PCode = $programmeCode")
+        println("Term = $term")
+        println("Year = $year")
     }
 
 }

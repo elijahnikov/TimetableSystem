@@ -49,8 +49,6 @@ public class ManageActivityGUI {
                         daySelect.getSelectedItem().toString()
                 );
 
-                System.out.println(a);
-
                 //add instance to list of activities
                 ah.addActivity(a);
 
@@ -65,9 +63,6 @@ public class ManageActivityGUI {
                         ah.getActivityList().get(ah.getActivityList().size()-1).getDay()
                 });
             }
-
-            System.out.println(dateInput);
-            System.out.println(val.getEndTime(hour, min, length));
         });
 
         spinner.setEditor(de);
@@ -219,17 +214,8 @@ public class ManageActivityGUI {
     JComboBox<String> daySelect = new JComboBox<String>(new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"});
     JLabel dayLbl = new JLabel("Day of week");
 
-    JTable table;
-    DefaultTableModel model;
+    public static JTable table;
+    public static DefaultTableModel model;
     String[] column = {"ID", "Room", "Activity Type", "Module", "Time Start", "Time End", "Day"};
-
-    TimetableGUI tg = new TimetableGUI();
-
-    String moduleName;
-    String moduleCode;
-    String programme;
-    String term;
-    Integer year;
-
 
 }

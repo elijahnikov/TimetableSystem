@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.Objects;
 
 public class ManageModuleGUI {
 
@@ -26,7 +27,7 @@ public class ManageModuleGUI {
 
                 //create module instance
                 m = mh.createModule(
-                        p,
+                        Objects.requireNonNull(p),
                         nameField.getText(),
                         codeField.getText(),
                         programmeCode,
@@ -189,16 +190,8 @@ public class ManageModuleGUI {
     JComboBox<Integer> yearSelect = new JComboBox<Integer>(years);
     JLabel yearLbl = new JLabel("Year");
 
-    JTable table;
-    DefaultTableModel model;
+    public static JTable table;
+    public static DefaultTableModel model;
     String[] column = {"ID", "Module Name", "Module Code", "Programme", "Term", "Year"};
-
-    TimetableGUI tg = new TimetableGUI();
-
-    String moduleName;
-    String moduleCode;
-    String programme;
-    String term;
-    Integer year;
 
 }

@@ -6,6 +6,12 @@ import java.util.*
 
 class FilePersistence: Persistence() {
 
+    var p: Programme? = null
+
+    var m: Modules? = null
+
+    var a: Activity? = null
+
     //save data to file
     override fun save(
         programmeList: MutableList<Programme>,
@@ -79,27 +85,65 @@ class FilePersistence: Persistence() {
         }
     }
 
-    override fun load(
-        programmePath: String,
-        modulePath: String,
-        activityPath: String
-    )
-    {
+    //load files
+    override fun load() {
+
         loadProgrammes()
+        println(ManageProgrammeGUI.ph.programmeList)
         loadModules()
+        println(ManageModuleGUI.mh.modulesList)
         loadActivities()
+        println(ManageActivityGUI.ah.activityList)
+
+        //add loaded instances into table model(s)
+
+        //add instance details to table
+        ManageProgrammeGUI.model.addRow(
+            arrayOf<Any>(
+
+            )
+        )
+
+        ManageModuleGUI.model.addRow(
+            arrayOf<Any>(
+
+            )
+        )
+
+        ManageActivityGUI.model.addRow(
+            arrayOf<Any>(
+
+            )
+        )
     }
 
-    private fun loadProgrammes(){
+    //load programmes from programmes.csv
+    private fun loadProgrammes() {
         val programmePath: String = System.getProperty("user.dir") + "\\programmes.csv"
 
         try {
+            var programmeName: String
+            var programmeCode: String
+            var programmeType: String
+
             val scanner = Scanner(readFile(programmePath))
-            var i: Int = 0
+
             while (scanner.hasNextLine()) {
+
+                //get each line from programme csv (each line is one saved instance)
                 val line: String = scanner.nextLine()
-                i++
-                println("$i, $line")
+
+                //get each value from line
+                val entries = line.split(",").toTypedArray()
+                println(line)
+                programmeName = entries[0]
+                programmeCode = entries[1]
+                programmeType = entries[2]
+
+                //create new programme instances from given data in csv
+                p = ManageProgrammeGUI.ph.createProgramme(programmeName, programmeCode, programmeType)
+                //add programme instance to list of instances
+                ManageProgrammeGUI.ph.addProgramme(p!!)
             }
             scanner.close()
         } catch (e: Exception){
@@ -111,12 +155,37 @@ class FilePersistence: Persistence() {
         val modulePath: String = System.getProperty("user.dir") + "\\modules.csv"
 
         try {
+            var moduleName: String
+            var moduleCode: String
+            var programmeCode: String
+            var term: String
+            var year: String
+
             val scanner = Scanner(readFile(modulePath))
-            var i: Int = 0
+
             while (scanner.hasNextLine()) {
+
+                //get each line from module csv (each line is one saved instance)
                 val line: String = scanner.nextLine()
-                i++
-                println("$i, $line")
+
+                //get each value from line
+                val entries = line.split(",").toTypedArray()
+                println(line)
+                moduleName = entries[0]
+                moduleCode = entries[1]
+                programmeCode = entries[2]
+                term = entries[3]
+                year = entries[4]
+
+                //create new module instances from given data in csv
+                //get programme from programme code and attach to module
+                var p: Programme? = ManageProgrammeGUI.ph.getProgramme(programmeCode)
+                println("P: ${p?.name}")
+                m = p?.let {
+                    ManageModuleGUI.mh.createModule(it, moduleName, moduleCode, programmeCode, term.toInt(), year.toInt())
+                }
+                ManageModuleGUI.mh.addModule(m!!)
+
             }
             scanner.close()
         } catch (e: Exception){
@@ -128,12 +197,39 @@ class FilePersistence: Persistence() {
         val activityPath: String = System.getProperty("user.dir") + "\\activities.csv"
 
         try {
+            var room: String
+            var type: String
+            var moduleCode: String
+            var timeStart: String
+            var timeEnd: String
+            var day: String
+
             val scanner = Scanner(readFile(activityPath))
-            var i: Int = 0
+
             while (scanner.hasNextLine()) {
+
+                //get each line from activities csv (each line is one saved instance)
                 val line: String = scanner.nextLine()
-                i++
-                println("$i, $line")
+
+                //get each value from line
+                val entries = line.split(",").toTypedArray()
+                println(line)
+                room = entries[0]
+                type = entries[1]
+                moduleCode = entries[2]
+                timeStart = entries[3]
+                timeEnd = entries[4]
+                day = entries[5]
+
+                //create new activity instances from given data in csv
+                //get module from module code and attach to module
+                var m: Modules? = ManageModuleGUI.mh.getModule(moduleCode)
+                println("M: ${m?.name}")
+                a = m?.let {
+                    ManageActivityGUI.ah.createActivity(it, room, type, moduleCode, timeStart, timeEnd, day)
+                }
+                ManageActivityGUI.ah.addActivity(a!!)
+
             }
             scanner.close()
         } catch (e: Exception){

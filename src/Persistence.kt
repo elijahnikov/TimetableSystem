@@ -1,5 +1,3 @@
-import java.lang.Module
-
 abstract class Persistence {
 
     companion object {
@@ -14,10 +12,6 @@ abstract class Persistence {
         activityList: MutableList<Activity>
     )
 
-    abstract fun load(
-        programmePath: String,
-        modulePath: String,
-        activityPath: String
-    )
+    abstract fun load()
 
 }
