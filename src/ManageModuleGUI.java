@@ -11,46 +11,56 @@ public class ManageModuleGUI {
         addBtn.addActionListener(e -> {
 
             //check if input fields are empty
-            if (codeField.getText().equals("") || nameField.getText().equals("") || programmeSelect.getSelectedItem() == null){
-                JOptionPane.showMessageDialog(mainPanel,
-                        "Please ensure all fields are filled.",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-            } else {
+//            if (codeField.getText().equals("") || nameField.getText().equals("") || programmeSelect.getSelectedItem() == null){
+//                JOptionPane.showMessageDialog(mainPanel,
+//                        "Please ensure all fields are filled.",
+//                        "Error",
+//                        JOptionPane.ERROR_MESSAGE);
+//            } else {
+//
+//                //get programme class instance from jcombobox select
+//                p = ph.getProgramme(programmeSelect.getSelectedItem().toString());
+//                String programmeCode = null;
+//                if (p != null) {
+//                    programmeCode = p.getCode();
+//                }
+//
+//                //create module instance
+//                m = mh.createModule(
+//                        Objects.requireNonNull(p),
+//                        nameField.getText(),
+//                        codeField.getText(),
+//                        programmeCode,
+//                        termSelect.getSelectedIndex() + 1,
+//                        Integer.parseInt(String.valueOf(yearSelect.getSelectedItem()))
+//                );
+//
+//                //add instance to list of modules
+//                mh.addModule(m);
+//
+//                //add instance details to table
+//                model.addRow(new Object[]{
+//                        mh.getModulesList().get(mh.getModulesList().size()-1).toString().replace("Modules@", ""),
+//                        mh.getModulesList().get(mh.getModulesList().size()-1).getName(),
+//                        mh.getModulesList().get(mh.getModulesList().size()-1).getCode(),
+//                        mh.getModulesList().get(mh.getModulesList().size()-1).getProgrammeCode(),
+//                        mh.getModulesList().get(mh.getModulesList().size()-1).getTerm(),
+//                        mh.getModulesList().get(mh.getModulesList().size()-1).getYear()
+//                });
+//
+//                //add module codes from instance to combobox in activity class
+//                ManageActivityGUI.selectModel.addElement(mh.getModulesList().get(mh.getModulesList().size()-1).getCode());
+//            }
 
-                //get programme class instance from jcombobox select
-                p = ph.getProgramme(programmeSelect.getSelectedItem().toString());
-                String programmeCode = null;
-                if (p != null) {
-                    programmeCode = p.getCode();
-                }
-
-                //create module instance
-                m = mh.createModule(
-                        Objects.requireNonNull(p),
-                        nameField.getText(),
-                        codeField.getText(),
-                        programmeCode,
-                        termSelect.getSelectedIndex() + 1,
-                        Integer.parseInt(String.valueOf(yearSelect.getSelectedItem()))
-                );
-
-                //add instance to list of modules
-                mh.addModule(m);
-
-                //add instance details to table
-                model.addRow(new Object[]{
-                        mh.getModulesList().get(mh.getModulesList().size()-1).toString().replace("Modules@", ""),
-                        mh.getModulesList().get(mh.getModulesList().size()-1).getName(),
-                        mh.getModulesList().get(mh.getModulesList().size()-1).getCode(),
-                        mh.getModulesList().get(mh.getModulesList().size()-1).getProgrammeCode(),
-                        mh.getModulesList().get(mh.getModulesList().size()-1).getTerm(),
-                        mh.getModulesList().get(mh.getModulesList().size()-1).getYear()
-                });
-
-                //add module codes from instance to combobox in activity class
-                ManageActivityGUI.selectModel.addElement(mh.getModulesList().get(mh.getModulesList().size()-1).getCode());
-            }
+            CreateData cd = new CreateData();
+            cd.createModule(
+                    nameField,
+                    codeField,
+                    programmeSelect,
+                    termSelect,
+                    yearSelect,
+                    mainPanel
+            );
 
 
         });
@@ -178,8 +188,8 @@ public class ManageModuleGUI {
     JTextField codeField = new JTextField();
     JLabel codeLbl = new JLabel("Module Code");
 
-    public static DefaultComboBoxModel selectModel = new DefaultComboBoxModel();
-    JComboBox programmeSelect = new JComboBox(selectModel);
+    public static DefaultComboBoxModel<String> selectModel = new DefaultComboBoxModel<>();
+    JComboBox<String> programmeSelect = new JComboBox<>(selectModel);
     JLabel programmeLbl = new JLabel("Programme");
 
     String[] terms = {"Term 1: Sep-Dec", "Term 2: Jan-Apr"};

@@ -6,6 +6,7 @@ public class MainGUI {
 
     public void createGUI(){
 
+        //save to file menu action
         saveToFileItem.addActionListener(e -> {
 
             try  {
@@ -23,6 +24,7 @@ public class MainGUI {
 
         });
 
+        //save to db menu action
         saveToDBItem.addActionListener(e -> {
             try {
                 dbP = new DBPersistence();
@@ -37,26 +39,28 @@ public class MainGUI {
             }
         });
 
+        //load from csv file menu action
         loadFromFileItem.addActionListener(e -> {
 
             try {
                 fileP = new FilePersistence();
                 fileP.load();
-
-
-
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         });
 
+        //close program menu action
+        //TO-DO: IMPLEMENT SAVING TO FILE ON CLOSE
         exitItem.addActionListener(e -> {
             System.exit(0);
         });
 
-        tabbedPane.addTab("Manage Programmes", null, manageProgrammePanel, null);
-        tabbedPane.addTab("Manage Modules", null, manageModulePanel, null);
-        tabbedPane.addTab("Manage Activities", null, manageActivityPanel, null);
+        tabbedPane.addTab("Programmes", null, manageProgrammePanel, null);
+        tabbedPane.addTab("Modules", null, manageModulePanel, null);
+        tabbedPane.addTab("Activities", null, manageActivityPanel, null);
+        tabbedPane.setEnabledAt(1, false);
+        tabbedPane.setEnabledAt(2, false);
         frame.add(tabbedPane);
 
         menuBar.add(fileMenu);
@@ -66,8 +70,8 @@ public class MainGUI {
         fileMenu.add(saveToDBItem);
         fileMenu.add(exitItem);
 
-        editMenu.add(loadFromDBItem);
         editMenu.add(loadFromFileItem);
+        editMenu.add(loadFromDBItem);
 
         frame.setJMenuBar(menuBar);
 
@@ -96,7 +100,7 @@ public class MainGUI {
 
 
     private final JFrame frame = new JFrame("Timetable System");
-    private final JTabbedPane tabbedPane = new JTabbedPane();
+    public final static JTabbedPane tabbedPane = new JTabbedPane();
     private final ManageProgrammeGUI mpg = new ManageProgrammeGUI();
     private final JComponent manageProgrammePanel = mpg.programmeGUIHandler();
     private final JComponent manageModulePanel = mmg.moduleGUIHandler();

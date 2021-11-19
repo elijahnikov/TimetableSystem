@@ -2,67 +2,92 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 public class ManageActivityGUI {
 
-
     public JComponent activityGUIHandler(){
 
         addBtn.addActionListener(e -> {
 
+            //get module from given module code in module select
+//            m = ManageModuleGUI.mh.getModule(moduleSelect.getSelectedItem().toString());
+//
+//            //get hour and min
+//            String dateInput = de.getFormat().format(spinner.getValue());
+//            int hour = Integer.parseInt(dateInput.substring(0, 2));
+//            int min = Integer.parseInt(dateInput.substring(3, 5));
+//            int length = lengthSelect.getSelectedIndex() + 1;
+//
+//            //perform validation checks on input and perform clash detection
+//            //if room input is empty
+//            if (roomField.getText().equals("")){
+//                JOptionPane.showMessageDialog(mainPanel,
+//                        "Please ensure all fields are filled.",
+//                        "Error",
+//                        JOptionPane.ERROR_MESSAGE);
+//            //if incorrect date is given, e.g. before 9 am or after 9pm
+//            } else if (val.validateDate(hour, min, length)){
+//                JOptionPane.showMessageDialog(mainPanel,
+//                        "Please ensure the duration of the activity is between the hours of 09:00 and 21:00",
+//                        "Error",
+//                        JOptionPane.ERROR_MESSAGE);
+//            //check for any timetable collisions
+//            } else if (cd.checkForClashes(
+//                    dateInput,
+//                    val.getEndTime(hour, min, length),
+//                    daySelect.getSelectedItem().toString(),
+//                    moduleSelect.getSelectedItem().toString(),
+//                    ManageModuleGUI.mh.getModulesList(),
+//                    ah.getActivityList()).size() > 0
+//            ) {
+//                JOptionPane.showMessageDialog(mainPanel,
+//                        cd.clashesToString(),
+//                        "Error",
+//                        JOptionPane.ERROR_MESSAGE);
+//            //passed
+//            } else {
+//
+//                //create activity instance
+//                a = ah.createActivity(
+//                        m,
+//                        roomField.getText(),
+//                        typeSelect.getSelectedItem().toString(),
+//                        moduleSelect.getSelectedItem().toString(),
+//                        dateInput,
+//                        val.getEndTime(hour, min, length),
+//                        daySelect.getSelectedItem().toString()
+//                );
+//
+//                //add instance to list of activities
+//                ah.addActivity(a);
+//
+//                //add instance details to table
+//                model.addRow(new Object[]{
+//                        ah.getActivityList().get(ah.getActivityList().size()-1).toString().replace("Activity@", ""),
+//                        ah.getActivityList().get(ah.getActivityList().size()-1).getRoom(),
+//                        ah.getActivityList().get(ah.getActivityList().size()-1).getType(),
+//                        ah.getActivityList().get(ah.getActivityList().size()-1).getModuleCode(),
+//                        ah.getActivityList().get(ah.getActivityList().size()-1).getStart(),
+//                        ah.getActivityList().get(ah.getActivityList().size()-1).getEnd(),
+//                        ah.getActivityList().get(ah.getActivityList().size()-1).getDay()
+//                });
+//
+//            }
+
             String dateInput = de.getFormat().format(spinner.getValue());
-            int hour = Integer.parseInt(dateInput.substring(0, 2));
-            int min = Integer.parseInt(dateInput.substring(3, 5));
-            int length = lengthSelect.getSelectedIndex() + 1;
 
-            if (roomField.getText().equals("")){
-                JOptionPane.showMessageDialog(mainPanel,
-                        "Please ensure all fields are filled.",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-            } else if (val.validateDate(hour, min, length)){
-                JOptionPane.showMessageDialog(mainPanel,
-                        "Please ensure the duration of the activity is between the hours of 09:00 and 21:00",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-            } else {
-                System.out.println(moduleSelect.getSelectedItem().toString());
-                m = ManageModuleGUI.mh.getModule(moduleSelect.getSelectedItem().toString());
-                String moduleCode = null;
-                if (m != null){
-                    moduleCode = m.getCode();
-                }
-                System.out.println(moduleCode);
-
-                //create activity instance
-                a = ah.createActivity(
-                        m,
-                        roomField.getText(),
-                        typeSelect.getSelectedItem().toString(),
-                        moduleCode,
-                        dateInput,
-                        val.getEndTime(hour, min, length),
-                        daySelect.getSelectedItem().toString()
-                );
-
-                //add instance to list of activities
-                ah.addActivity(a);
-
-                //add instance details to table
-                model.addRow(new Object[]{
-                        ah.getActivityList().get(ah.getActivityList().size()-1).toString().replace("Activity@", ""),
-                        ah.getActivityList().get(ah.getActivityList().size()-1).getRoom(),
-                        ah.getActivityList().get(ah.getActivityList().size()-1).getType(),
-                        ah.getActivityList().get(ah.getActivityList().size()-1).getModuleCode(),
-                        ah.getActivityList().get(ah.getActivityList().size()-1).getStart(),
-                        ah.getActivityList().get(ah.getActivityList().size()-1).getEnd(),
-                        ah.getActivityList().get(ah.getActivityList().size()-1).getDay()
-                });
-            }
+            CreateData cd = new CreateData();
+            cd.createActivity(
+                    roomField,
+                    typeSelect,
+                    moduleSelect,
+                    dateInput,
+                    lengthSelect,
+                    daySelect,
+                    mainPanel
+            );
         });
 
         spinner.setEditor(de);
@@ -169,13 +194,7 @@ public class ManageActivityGUI {
 
         return mainPanel;
     }
-
-    Activity a;
     public static ActivityHandler ah = new ActivityHandler();
-
-    Modules m;
-
-    DateValidation val = new DateValidation();
 
     //variable declarations
     GridBagConstraints mainc = new GridBagConstraints();
@@ -193,25 +212,24 @@ public class ManageActivityGUI {
     JLabel roomLbl = new JLabel("Room");
 
     String[] activityTypes = {"Lab", "Tutorial", "Lecture", "Seminar"};
-    JComboBox<String> typeSelect = new JComboBox<String>(activityTypes);
+    JComboBox<String> typeSelect = new JComboBox<>(activityTypes);
     JLabel typeLbl = new JLabel("Activity Type");
 
-    public static DefaultComboBoxModel selectModel = new DefaultComboBoxModel();
-    JComboBox moduleSelect = new JComboBox(selectModel);
+    public static DefaultComboBoxModel<String> selectModel = new DefaultComboBoxModel<>();
+    JComboBox<String> moduleSelect = new JComboBox<>(selectModel);
     JLabel moduleLbl = new JLabel("Module");
 
     //date spinner
-    final DateFormat dateFormat = new SimpleDateFormat("HH:mm");
     Date date = new Date();
     SpinnerDateModel sm = new SpinnerDateModel(date, null, null, Calendar.MINUTE);
     JSpinner spinner = new JSpinner(sm);
     JSpinner.DateEditor de = new JSpinner.DateEditor(spinner, "HH:mm");
     JLabel startLbl = new JLabel("Time Start");
 
-    JComboBox<Integer> lengthSelect = new JComboBox<Integer>(new Integer[]{1, 2, 3});
+    JComboBox<Integer> lengthSelect = new JComboBox<>(new Integer[]{1, 2, 3});
     JLabel lengthLbl = new JLabel("Length (hrs)");
 
-    JComboBox<String> daySelect = new JComboBox<String>(new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"});
+    JComboBox<String> daySelect = new JComboBox<>(new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"});
     JLabel dayLbl = new JLabel("Day of week");
 
     public static JTable table;

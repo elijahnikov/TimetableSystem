@@ -1,15 +1,16 @@
 import java.sql.Connection
 import java.sql.DriverManager
+import java.sql.DriverManager.getConnection
 import java.sql.Statement
 
 
 class DBPersistence: Persistence() {
 
-    private val url: String = "jdbc:postgresql://localhost:5432/timetable"
-    private val user: String = "postgres"
-    private val pass: String = "postgres"
+//    private val url: String = "jdbc:postgresql://localhost:5432/timetable"
+//    private val user: String = "postgres"
+//    private val pass: String = "postgres"
 
-    private var conn: Connection? = null
+    private val conn: Connection? = ConnectDB.connection
 
     override fun save(
         programmeList: MutableList<Programme>,
@@ -19,8 +20,8 @@ class DBPersistence: Persistence() {
     {
 
         try {
-            val conn: Connection = DriverManager.getConnection(url, user, pass)
-            val st: Statement = conn.createStatement()
+
+            val st: Statement = conn!!.createStatement()
             st.executeUpdate(
                 "INSERT INTO  programmes (name, code, type) " +
                         "VALUES ('test', 'TEST1', 'Undergraduate')"

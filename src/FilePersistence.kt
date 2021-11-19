@@ -86,9 +86,9 @@ class FilePersistence: Persistence() {
     //load files
     override fun load() {
 
-        loadProgrammes()
-        loadModules()
-        loadActivities()
+        loadProgrammes(System.getProperty("user.dir") + "\\programmes.csv")
+        loadModules(System.getProperty("user.dir") + "\\modules.csv")
+        loadActivities(System.getProperty("user.dir") + "\\activities.csv")
 
         //add instance details to table
         for (programme in ManageProgrammeGUI.ph.programmeList){
@@ -135,15 +135,14 @@ class FilePersistence: Persistence() {
     }
 
     //load programmes from programmes.csv
-    private fun loadProgrammes() {
-        val programmePath: String = System.getProperty("user.dir") + "\\programmes.csv"
+    val loadProgrammes = { path: String ->
 
         try {
             var programmeName: String
             var programmeCode: String
             var programmeType: String
 
-            val scanner = Scanner(readFile(programmePath))
+            val scanner = Scanner(readFile(path))
 
             while (scanner.hasNextLine()) {
 
@@ -167,8 +166,7 @@ class FilePersistence: Persistence() {
         }
     }
 
-    private fun loadModules(){
-        val modulePath: String = System.getProperty("user.dir") + "\\modules.csv"
+    val loadModules = { path: String ->
 
         try {
             var moduleName: String
@@ -177,7 +175,7 @@ class FilePersistence: Persistence() {
             var term: String
             var year: String
 
-            val scanner = Scanner(readFile(modulePath))
+            val scanner = Scanner(readFile(path))
 
             while (scanner.hasNextLine()) {
 
@@ -208,8 +206,7 @@ class FilePersistence: Persistence() {
         }
     }
 
-    private fun loadActivities(){
-        val activityPath: String = System.getProperty("user.dir") + "\\activities.csv"
+    val loadActivities = { path: String ->
 
         try {
             var room: String
@@ -219,7 +216,7 @@ class FilePersistence: Persistence() {
             var timeEnd: String
             var day: String
 
-            val scanner = Scanner(readFile(activityPath))
+            val scanner = Scanner(readFile(path))
 
             while (scanner.hasNextLine()) {
 
