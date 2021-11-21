@@ -2,16 +2,15 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.Objects;
 
-public class ManageModuleGUI {
+public class ManageModuleGUI
+{
 
-    public JComponent moduleGUIHandler(){
+    public JComponent moduleGUIHandler()
+    {
 
-        addBtn.addActionListener(e -> {
-
-
-
+        addBtn.addActionListener(e ->
+        {
             CreateData cd = new CreateData();
             cd.createModule(
                     nameField,
@@ -21,8 +20,6 @@ public class ManageModuleGUI {
                     yearSelect,
                     mainPanel
             );
-
-
         });
 
         //sizing

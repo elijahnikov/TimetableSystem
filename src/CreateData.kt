@@ -26,7 +26,8 @@ class CreateData {
         else
         {
 
-            val type: String = if (postBtn.isSelected) {
+            val type: String = if (postBtn.isSelected)
+            {
                 "Postgraduate"
             } else {
                 "Undergraduate"
@@ -52,7 +53,7 @@ class CreateData {
                     ManageProgrammeGUI.ph.programmeList[ManageProgrammeGUI.ph.programmeList.size - 1].name,
                     ManageProgrammeGUI.ph.programmeList[ManageProgrammeGUI.ph.programmeList.size - 1].code,
                     ManageProgrammeGUI.ph.programmeList[ManageProgrammeGUI.ph.programmeList.size - 1].type,
-                    ""
+                    "Open"
                 )
             )
 
@@ -216,8 +217,6 @@ class CreateData {
                     ManageActivityGUI.ah.activityList[ManageActivityGUI.ah.activityList.size - 1].day
                 )
             )
-
-
         }
     }
 

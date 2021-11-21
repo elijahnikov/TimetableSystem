@@ -5,14 +5,15 @@ import java.awt.*;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ManageActivityGUI {
+public class ManageActivityGUI
+{
 
-    public JComponent activityGUIHandler(){
+    public JComponent activityGUIHandler()
+    {
 
-        addBtn.addActionListener(e -> {
-
+        addBtn.addActionListener(e ->
+        {
             String dateInput = de.getFormat().format(spinner.getValue());
-
             CreateData cd = new CreateData();
             cd.createActivity(
                     roomField,

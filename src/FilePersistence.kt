@@ -4,7 +4,8 @@ import java.io.PrintWriter
 import java.util.*
 
 
-class FilePersistence: Persistence() {
+class FilePersistence: Persistence()
+{
 
     var p: Programme? = null
     var m: Modules? = null
@@ -22,7 +23,8 @@ class FilePersistence: Persistence() {
         try {
             PrintWriter("programmes.csv").use { writer ->
                 val sb = StringBuilder()
-                for (programme in programmeList){
+                for (programme in programmeList)
+                {
                     sb.append(programme.name)
                     sb.append(",")
                     sb.append(programme.code)
@@ -32,7 +34,8 @@ class FilePersistence: Persistence() {
                 }
                 writer.write(sb.toString())
             }
-        } catch (e: Exception) {
+        } catch (e: Exception)
+        {
             e.printStackTrace()
         }
 
@@ -40,7 +43,8 @@ class FilePersistence: Persistence() {
         try {
             PrintWriter("modules.csv").use { writer ->
                 val sb = StringBuilder()
-                for (modules in moduleList){
+                for (modules in moduleList)
+                {
                     sb.append(modules.name)
                     sb.append(",")
                     sb.append(modules.code)
@@ -54,7 +58,8 @@ class FilePersistence: Persistence() {
                 }
                 writer.write(sb.toString())
             }
-        } catch (e: Exception) {
+        } catch (e: Exception)
+        {
             e.printStackTrace()
         }
 
@@ -62,7 +67,8 @@ class FilePersistence: Persistence() {
         try {
             PrintWriter("activities.csv").use { writer ->
                 val sb = StringBuilder()
-                for (activity in activityList){
+                for (activity in activityList)
+                {
                     sb.append(activity.room)
                     sb.append(",")
                     sb.append(activity.type)
@@ -78,33 +84,48 @@ class FilePersistence: Persistence() {
                 }
                 writer.write(sb.toString())
             }
-        } catch (e: Exception) {
+        } catch (e: Exception)
+        {
             e.printStackTrace()
         }
     }
 
     //load files
-    override fun load() {
+    override fun load()
+    {
 
         loadProgrammes(System.getProperty("user.dir") + "\\programmes.csv")
         loadModules(System.getProperty("user.dir") + "\\modules.csv")
         loadActivities(System.getProperty("user.dir") + "\\activities.csv")
 
+        if (ManageProgrammeGUI.ph.programmeList.size > 0)
+        {
+            MainGUI.tabbedPane.setEnabledAt(1, true)
+        }
+
+        if (ManageModuleGUI.mh.modulesList.size > 0)
+        {
+            MainGUI.tabbedPane.setEnabledAt(2, true)
+        }
+
         //add instance details to table
-        for (programme in ManageProgrammeGUI.ph.programmeList){
+        for (programme in ManageProgrammeGUI.ph.programmeList)
+        {
             ManageProgrammeGUI.model.addRow(
                 arrayOf<Any>(
                     programme.toString().replace("Programme@", ""),
                     programme.name,
                     programme.code,
-                    programme.type
+                    programme.type,
+                    "Open"
                 )
             )
             //add programme code to programme select in module gui
             ManageModuleGUI.selectModel.addElement(programme.code)
         }
 
-        for (module in ManageModuleGUI.mh.modulesList){
+        for (module in ManageModuleGUI.mh.modulesList)
+        {
             ManageModuleGUI.model.addRow(
                 arrayOf<Any>(
                     module.toString().replace("Modules@", ""),
@@ -119,7 +140,8 @@ class FilePersistence: Persistence() {
             ManageActivityGUI.selectModel.addElement(module.code)
         }
 
-        for (activity in ManageActivityGUI.ah.activityList){
+        for (activity in ManageActivityGUI.ah.activityList)
+        {
             ManageActivityGUI.model.addRow(
                 arrayOf<Any>(
                     activity.toString().replace("Activity@", ""),
@@ -137,14 +159,16 @@ class FilePersistence: Persistence() {
     //load programmes from programmes.csv
     val loadProgrammes = { path: String ->
 
-        try {
+        try
+        {
             var programmeName: String
             var programmeCode: String
             var programmeType: String
 
             val scanner = Scanner(readFile(path))
 
-            while (scanner.hasNextLine()) {
+            while (scanner.hasNextLine())
+            {
 
                 //get each line from programme csv (each line is one saved instance)
                 val line: String = scanner.nextLine()
@@ -161,14 +185,16 @@ class FilePersistence: Persistence() {
                 ManageProgrammeGUI.ph.addProgramme(p!!)
             }
             scanner.close()
-        } catch (e: Exception){
+        } catch (e: Exception)
+        {
             e.printStackTrace()
         }
     }
 
     val loadModules = { path: String ->
 
-        try {
+        try
+        {
             var moduleName: String
             var moduleCode: String
             var programmeCode: String
@@ -177,7 +203,8 @@ class FilePersistence: Persistence() {
 
             val scanner = Scanner(readFile(path))
 
-            while (scanner.hasNextLine()) {
+            while (scanner.hasNextLine())
+            {
 
                 //get each line from module csv (each line is one saved instance)
                 val line: String = scanner.nextLine()
@@ -201,14 +228,16 @@ class FilePersistence: Persistence() {
 
             }
             scanner.close()
-        } catch (e: Exception){
+        } catch (e: Exception)
+        {
             e.printStackTrace()
         }
     }
 
     val loadActivities = { path: String ->
 
-        try {
+        try
+        {
             var room: String
             var type: String
             var moduleCode: String
@@ -218,7 +247,8 @@ class FilePersistence: Persistence() {
 
             val scanner = Scanner(readFile(path))
 
-            while (scanner.hasNextLine()) {
+            while (scanner.hasNextLine())
+            {
 
                 //get each line from activities csv (each line is one saved instance)
                 val line: String = scanner.nextLine()
@@ -243,14 +273,18 @@ class FilePersistence: Persistence() {
 
             }
             scanner.close()
-        } catch (e: Exception){
+        } catch (e: Exception)
+        {
             e.printStackTrace()
         }
     }
 
-    private fun readFile(path: String): String {
+    private fun readFile(path: String): String
+    {
         val bufferedReader: BufferedReader = File(path).bufferedReader()
-        return bufferedReader.use { it.readText() }
+        return bufferedReader.use {
+            it.readText()
+        }
     }
 
 }

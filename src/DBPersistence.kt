@@ -1,10 +1,9 @@
 import java.sql.Connection
-import java.sql.DriverManager
-import java.sql.DriverManager.getConnection
 import java.sql.Statement
 
 
-class DBPersistence: Persistence() {
+class DBPersistence: Persistence()
+{
 
 //    private val url: String = "jdbc:postgresql://localhost:5432/timetable"
 //    private val user: String = "postgres"
@@ -19,7 +18,8 @@ class DBPersistence: Persistence() {
     )
     {
 
-        try {
+        try
+        {
 
             val st: Statement = conn!!.createStatement()
             st.executeUpdate(
@@ -27,13 +27,15 @@ class DBPersistence: Persistence() {
                         "VALUES ('test', 'TEST1', 'Undergraduate')"
             )
             conn.close()
-        } catch (e: Exception) {
+        } catch (e: Exception)
+        {
             System.err.println("Got an exception! ")
             System.err.println(e.message)
         }
     }
 
-    override fun load() {
+    override fun load()
+    {
 
     }
 }

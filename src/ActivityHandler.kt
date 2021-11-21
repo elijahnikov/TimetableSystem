@@ -1,4 +1,5 @@
-class ActivityHandler {
+class ActivityHandler
+{
 
     fun createActivity(
         modules: Modules,
@@ -8,7 +9,8 @@ class ActivityHandler {
         start: String,
         end: String,
         day: String,
-    ): Activity {
+    ): Activity
+    {
 
         return Activity(
             modules, room, type, moduleCode, start, end, day
@@ -17,7 +19,8 @@ class ActivityHandler {
 
     val activityList: MutableList<Activity> = mutableListOf()
 
-    fun addActivity(activity: Activity) {
+    fun addActivity(activity: Activity)
+    {
         activityList.add(activity)
     }
 

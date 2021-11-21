@@ -1,15 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class MainGUI {
 
     public void createGUI(){
 
         //save to file menu action
-        saveToFileItem.addActionListener(e -> {
+        saveToFileItem.addActionListener(e ->
+        {
 
-            try  {
+            try
+            {
                 fileP = new FilePersistence();
 
                 fileP.save(
@@ -18,15 +19,18 @@ public class MainGUI {
                         ManageActivityGUI.ah.getActivityList()
                 );
 
-            } catch (Exception ex){
+            } catch (Exception ex)
+            {
                 ex.printStackTrace();
             }
 
         });
 
         //save to db menu action
-        saveToDBItem.addActionListener(e -> {
-            try {
+        saveToDBItem.addActionListener(e ->
+        {
+            try
+            {
                 dbP = new DBPersistence();
 
                 dbP.save(
@@ -34,25 +38,30 @@ public class MainGUI {
                         ManageModuleGUI.mh.getModulesList(),
                         ManageActivityGUI.ah.getActivityList()
                 );
-            } catch (Exception ex){
+            } catch (Exception ex)
+            {
                 ex.printStackTrace();
             }
         });
 
         //load from csv file menu action
-        loadFromFileItem.addActionListener(e -> {
+        loadFromFileItem.addActionListener(e ->
+        {
 
-            try {
+            try
+            {
                 fileP = new FilePersistence();
                 fileP.load();
-            } catch (Exception ex) {
+            } catch (Exception ex)
+            {
                 ex.printStackTrace();
             }
         });
 
         //close program menu action
         //TO-DO: IMPLEMENT SAVING TO FILE ON CLOSE
-        exitItem.addActionListener(e -> {
+        exitItem.addActionListener(e ->
+        {
             System.exit(0);
         });
 
@@ -105,7 +114,6 @@ public class MainGUI {
     private final JComponent manageProgrammePanel = mpg.programmeGUIHandler();
     private final JComponent manageModulePanel = mmg.moduleGUIHandler();
     private final JComponent manageActivityPanel = mag.activityGUIHandler();
-    private final JLabel textLbl = new JLabel("test");
 
     private Persistence fileP;
     private Persistence dbP;

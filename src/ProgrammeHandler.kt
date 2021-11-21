@@ -1,10 +1,12 @@
-class ProgrammeHandler {
+class ProgrammeHandler
+{
 
     fun createProgramme(
         name: String,
         code: String,
         type: String,
-    ): Programme {
+    ): Programme
+    {
 
         return Programme(
             name, code, type
@@ -13,13 +15,17 @@ class ProgrammeHandler {
 
     val programmeList: MutableList<Programme> = mutableListOf()
 
-    fun addProgramme(programme: Programme) {
+    fun addProgramme(programme: Programme)
+    {
         programmeList.add(programme);
     }
 
-    fun getProgramme(pCode: String): Programme? {
-        for (programme in programmeList){
-            if (programme.code == pCode) {
+    fun getProgramme(pCode: String): Programme?
+    {
+        for (programme in programmeList)
+        {
+            if (programme.code == pCode)
+            {
                 return programme
             }
         }

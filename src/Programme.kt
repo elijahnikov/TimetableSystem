@@ -3,14 +3,18 @@ class Programme (
     var code: String,
     var type: String,
     val modules: MutableList<Modules> = mutableListOf()
-    ) {
+    )
+{
 
-    val length: Int = if (type == "Postgraduate"){
+    val length: Int = if (type == "Postgraduate")
+    {
         1
-    } else {
+    } else
+    {
         3
     }
-     init {
+     init
+     {
          println("Name = $name")
          println("Code = $code")
          println("Type = $type")

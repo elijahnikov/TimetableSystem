@@ -1,6 +1,8 @@
-abstract class Persistence {
+abstract class Persistence
+{
 
-    companion object {
+    companion object
+    {
         fun createDBPersistence() = DBPersistence()
 
         fun createFilePersistence() = FilePersistence()

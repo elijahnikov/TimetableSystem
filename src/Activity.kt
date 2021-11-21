@@ -6,9 +6,11 @@ class Activity (
     var start: String,
     var end: String,
     var day: String,
-    ) {
+    )
+{
 
-    init {
+    init
+    {
         modules.activities.add(this)
 //        println("Room = $room")
 //        println("Type = $type")

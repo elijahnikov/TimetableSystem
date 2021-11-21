@@ -1,10 +1,11 @@
-
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ClashDetection {
+class ClashDetection
+{
 
+    //list as null as we need to reset every time function is run
     private var clashes: MutableList<Activity>? = null
 
     //function returns a list of activities that given activity clashes with
@@ -15,7 +16,8 @@ class ClashDetection {
         moduleCode: String,
         moduleList: MutableList<Modules>,
         activityList: MutableList<Activity>
-    ): MutableList<Activity> {
+    ): MutableList<Activity>
+    {
 
         clashes = mutableListOf()
 
@@ -27,13 +29,17 @@ class ClashDetection {
         var moduleToCheck: Modules? = ManageModuleGUI.mh.getModule(moduleCode)
 
         //check each module for year and term
-        for (module in moduleList){
+        for (module in moduleList)
+        {
             //check if the activities' module has the same year and term as other modules
-            if (moduleToCheck != null) {
+            if (moduleToCheck != null)
+            {
                 if ((moduleToCheck.year == module.year) &&
                     (moduleToCheck.term == module.term)
-                ) {
-                    for (activity in activityList){
+                )
+                {
+                    for (activity in activityList)
+                    {
                         //get activities start and end times as actual time format
                         val activityStart: Date = sdf.parse(activity.start)
                         val activityEnd: Date = sdf.parse(activity.end)
@@ -47,8 +53,10 @@ class ClashDetection {
                             (start == activityStart && end == activityEnd) ||
                             ((start.before(activityStart) || start.after(activityStart)) && end == activityEnd) ||
                             (start == activityStart && (end.before(activityEnd) || end.after(activityEnd))))
-                        ) {
-                            if (activity !in clashes!!){
+                        )
+                        {
+                            if (activity !in clashes!!)
+                            {
                                 clashes?.add(activity)
                             }
                         }
@@ -65,13 +73,15 @@ class ClashDetection {
 
     }
 
-    fun clashesToString(): String {
+    fun clashesToString(): String
+    {
 
         //if clashes append to string builder and display in popup message
 
         //if clashes append to string builder and display in popup message
         val sb = StringBuilder()
-        for ((value, index) in clashes?.withIndex()!!) {
+        for ((value, index) in clashes?.withIndex()!!)
+        {
             sb.append(value)
             sb.append(": ")
             sb.append(index.room)

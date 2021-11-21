@@ -6,9 +6,11 @@ class Modules (
     var term: Int,
     var year: Int,
     val activities: MutableList<Activity> = mutableListOf()
-    ) {
+    )
+{
 
-    init {
+    init
+    {
         programme.modules.add(this)
         println("Name = $name")
         println("Code = $code")
