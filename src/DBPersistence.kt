@@ -20,7 +20,6 @@ class DBPersistence: Persistence()
 
         try
         {
-
             val st: Statement = conn!!.createStatement()
             st.executeUpdate(
                 "INSERT INTO  programmes (name, code, type) " +

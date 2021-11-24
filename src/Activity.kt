@@ -8,16 +8,14 @@ class Activity (
     var day: String,
     )
 {
-
     init
     {
         modules.activities.add(this)
-//        println("Room = $room")
-//        println("Type = $type")
-//        println("MCode = $moduleCode")
-//        println("Start = $start")
-//        println("End = $end")
-//        println("Day = $day")
+        println("Room = $room")
+        println("Type = $type")
+        println("MCode = $moduleCode")
+        println("Start = $start")
+        println("End = $end")
+        println("Day = $day")
     }
-
 }

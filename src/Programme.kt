@@ -6,7 +6,7 @@ class Programme (
     )
 {
 
-    val length: Int = if (type == "Postgraduate")
+    private val length: Int = if (type == "Postgraduate")
     {
         1
     } else

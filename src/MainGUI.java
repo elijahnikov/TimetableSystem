@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class MainGUI {
 
@@ -47,7 +48,6 @@ public class MainGUI {
         //load from csv file menu action
         loadFromFileItem.addActionListener(e ->
         {
-
             try
             {
                 fileP = new FilePersistence();
@@ -58,12 +58,27 @@ public class MainGUI {
             }
         });
 
+        //choose which method of clash detection to use, kotlin or scala
+        ActionListener clashAction = e ->
+        {
+            AbstractButton radio = (AbstractButton) e.getSource();
+            switch (radio.getText())
+            {
+                case "Kotlin" -> {
+                    clashDetection = "Kotlin";
+                }
+                case "Scala" -> {
+                    clashDetection = "Scala";
+                }
+            }
+        };
+
+        kotlinClash.addActionListener(clashAction);
+        scalaClash.addActionListener(clashAction);
+
         //close program menu action
         //TO-DO: IMPLEMENT SAVING TO FILE ON CLOSE
-        exitItem.addActionListener(e ->
-        {
-            System.exit(0);
-        });
+        exitItem.addActionListener(e -> System.exit(0));
 
         tabbedPane.addTab("Programmes", null, manageProgrammePanel, null);
         tabbedPane.addTab("Modules", null, manageModulePanel, null);
@@ -74,6 +89,7 @@ public class MainGUI {
 
         menuBar.add(fileMenu);
         menuBar.add(editMenu);
+        menuBar.add(clashMenu);
 
         fileMenu.add(saveToFileItem);
         fileMenu.add(saveToDBItem);
@@ -81,6 +97,12 @@ public class MainGUI {
 
         editMenu.add(loadFromFileItem);
         editMenu.add(loadFromDBItem);
+
+        clashMenu.add(kotlinClash);
+        clashMenu.add(scalaClash);
+        clashGrp.add(kotlinClash);
+        clashGrp.add(scalaClash);
+        kotlinClash.setSelected(true);
 
         frame.setJMenuBar(menuBar);
 
@@ -99,6 +121,7 @@ public class MainGUI {
     private final JMenuBar menuBar = new JMenuBar();
     private final JMenu fileMenu = new JMenu("File");
     private final JMenu editMenu = new JMenu("Edit");
+    private final JMenu clashMenu = new JMenu("Detection");
 
     private final JMenuItem saveToFileItem = new JMenuItem("Save to File");
     private final JMenuItem saveToDBItem = new JMenuItem("Save to DB");
@@ -107,6 +130,9 @@ public class MainGUI {
     private final JMenuItem loadFromFileItem = new JMenuItem("Load from File");
     private final JMenuItem loadFromDBItem = new JMenuItem("Load from DB");
 
+    private final JRadioButtonMenuItem kotlinClash = new JRadioButtonMenuItem("Kotlin");
+    private final JRadioButtonMenuItem scalaClash = new JRadioButtonMenuItem("Scala");
+    private final ButtonGroup clashGrp = new ButtonGroup();
 
     private final JFrame frame = new JFrame("Timetable System");
     public final static JTabbedPane tabbedPane = new JTabbedPane();
@@ -115,6 +141,7 @@ public class MainGUI {
     private final JComponent manageModulePanel = mmg.moduleGUIHandler();
     private final JComponent manageActivityPanel = mag.activityGUIHandler();
 
+    public static String clashDetection = "Kotlin";
     private Persistence fileP;
     private Persistence dbP;
 

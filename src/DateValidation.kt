@@ -6,7 +6,7 @@ class DateValidation {
 
         //convert input time into military time
         //check if minutes is less than 10 to give a leading zero
-        var timeFormat: String = if (time < 10)
+        val timeFormat: String = if (time < 10)
         {
             "0$time"
         } else {
@@ -18,6 +18,11 @@ class DateValidation {
         //check if input hour is between 9 and 21 hours
         if (hour !in 21 downTo 9)
         {
+            return true
+        }
+
+        //make sure time is either half past the hour or on the hour e.g. 12:30 or 12:00
+        if (time.toString() != "30" && time.toString() != "0"){
             return true
         }
 
@@ -39,8 +44,7 @@ class DateValidation {
 
     fun getEndTime(hour: Int, time: Int, length: Int): String
     {
-
-        val endHour = hour + length;
+        val endHour = hour + length
         val timeFormat: String = if (time < 10)
         {
             "0$time"
@@ -48,8 +52,8 @@ class DateValidation {
         {
             "$time"
         }
-        return "$endHour:$timeFormat"
 
+        return "$endHour:$timeFormat"
     }
 
 }

@@ -1,10 +1,8 @@
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 class ClashDetection
 {
-
     //list as null as we need to reset every time function is run
     private var clashes: MutableList<Activity>? = null
 
@@ -13,12 +11,13 @@ class ClashDetection
         timeStart: String,
         timeEnd: String,
         day: String,
-        moduleCode: String,
-        moduleList: MutableList<Modules>,
-        activityList: MutableList<Activity>
+        moduleCode: String
     ): MutableList<Activity>
     {
 
+        println("KOTLIN")
+        val moduleList: MutableList<Modules> = ManageModuleGUI.mh.modulesList
+        val activityList: MutableList<Activity> = ManageActivityGUI.ah.activityList
         clashes = mutableListOf()
 
         val sdf = SimpleDateFormat("HH:mm")
@@ -26,7 +25,7 @@ class ClashDetection
         val end: Date = sdf.parse(timeEnd)
 
         //module that given activity is part of
-        var moduleToCheck: Modules? = ManageModuleGUI.mh.getModule(moduleCode)
+        val moduleToCheck: Modules? = ManageModuleGUI.mh.getModule(moduleCode)
 
         //check each module for year and term
         for (module in moduleList)
@@ -34,9 +33,7 @@ class ClashDetection
             //check if the activities' module has the same year and term as other modules
             if (moduleToCheck != null)
             {
-                if ((moduleToCheck.year == module.year) &&
-                    (moduleToCheck.term == module.term)
-                )
+                if ((moduleToCheck.year == module.year) && (moduleToCheck.term == module.term))
                 {
                     for (activity in activityList)
                     {
@@ -47,7 +44,7 @@ class ClashDetection
                         if (
                             activity.day == day &&
                             mc?.year == moduleToCheck.year &&
-                            mc?.term == moduleToCheck.term &&
+                            mc.term == moduleToCheck.term &&
                             ((start.after(activityStart) && start.before(activityEnd)) ||
                             (end.after(activityStart) && end.before(activityEnd)) ||
                             (start == activityStart && end == activityEnd) ||
@@ -64,35 +61,24 @@ class ClashDetection
                 }
             }
         }
-
-        //gc will remove module instance from memory as not needed after
-        //clash detection is performed
-        moduleToCheck = null
-
         return clashes as MutableList<Activity>
-
     }
 
     fun clashesToString(): String
     {
-
-        //if clashes append to string builder and display in popup message
-
         //if clashes append to string builder and display in popup message
         val sb = StringBuilder()
-        for ((value, index) in clashes?.withIndex()!!)
+        for (clash in clashes!!)
         {
-            sb.append(value)
-            sb.append(": ")
-            sb.append(index.room)
+            sb.append(clash.room)
             sb.append(", ")
-            sb.append(index.moduleCode)
+            sb.append(clash.moduleCode)
             sb.append(", ")
-            sb.append(index.day)
+            sb.append(clash.day)
             sb.append(", ")
-            sb.append(index.start)
+            sb.append(clash.start)
             sb.append(", ")
-            sb.append(index.end)
+            sb.append(clash.end)
         }
 
         return sb.toString()

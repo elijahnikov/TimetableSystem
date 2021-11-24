@@ -4,6 +4,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class ManageActivityGUI
 {
@@ -13,17 +14,72 @@ public class ManageActivityGUI
 
         addBtn.addActionListener(e ->
         {
+
             String dateInput = de.getFormat().format(spinner.getValue());
-            CreateData cd = new CreateData();
-            cd.createActivity(
-                    roomField,
-                    typeSelect,
-                    moduleSelect,
-                    dateInput,
-                    lengthSelect,
-                    daySelect,
-                    mainPanel
-            );
+
+            String moduleCode = (String) moduleSelect.getSelectedItem();
+            int hour = Integer.parseInt(dateInput.substring(0, 2));
+            int min = Integer.parseInt(dateInput.substring(3, 5));
+            int length = lengthSelect.getSelectedIndex() + 1;
+
+            if (roomField.getText().equals(""))
+            {
+                JOptionPane.showMessageDialog(
+                        mainPanel,
+                        "Please ensure all fields are filled.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+            else if (valid.validateDate(hour, min, length))
+            {
+                JOptionPane.showMessageDialog(
+                        mainPanel,
+                        "Please ensure the duration of the activity is between the hours of 09:00 and 21:00" +
+                                "\nGiven times must be at half past or on the hour (e.g. 12:00 or 12:30)",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+            //clash detection with kotlin
+            else if (MainGUI.clashDetection.equals("Kotlin") &&
+                    kotlinClash.checkForClashes(dateInput,
+                            valid.getEndTime(hour, min, length),
+                            Objects.requireNonNull(daySelect.getSelectedItem()).toString(),
+                            Objects.requireNonNull(moduleCode)).size() > 0)
+            {
+                JOptionPane.showMessageDialog(
+                        mainPanel,
+                        kotlinClash.clashesToString(),
+                        "Error: Kotlin",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+            //clash detection with scala
+            else if (MainGUI.clashDetection.equals("Scala") &&
+                    scalaClash.checkForClashes(dateInput,
+                            valid.getEndTime(hour, min, length),
+                            Objects.requireNonNull(daySelect.getSelectedItem()).toString(),
+                            moduleCode).size() > 0)
+            {
+                JOptionPane.showMessageDialog(
+                        mainPanel,
+                        scalaClash.clashesToString(),
+                        "Error: Scala",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+            else {
+                CreateData cd = new CreateData();
+                cd.createActivity(
+                        roomField,
+                        typeSelect,
+                        moduleSelect,
+                        dateInput,
+                        lengthSelect,
+                        daySelect
+                );
+            }
         });
 
         spinner.setEditor(de);
@@ -131,6 +187,9 @@ public class ManageActivityGUI
         return mainPanel;
     }
     public static ActivityHandler ah = new ActivityHandler();
+    DateValidation valid = new DateValidation();
+    ClashDetection kotlinClash = new ClashDetection();
+    ClashDetectionScala scalaClash = new ClashDetectionScala();
 
     //variable declarations
     GridBagConstraints mainc = new GridBagConstraints();

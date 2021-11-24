@@ -219,7 +219,7 @@ class FilePersistence: Persistence()
 
                 //create new module instances from given data in csv
                 //get programme from programme code and attach to module
-                var p: Programme? = ManageProgrammeGUI.ph.getProgramme(programmeCode)
+                val p: Programme? = ManageProgrammeGUI.ph.getProgramme(programmeCode)
                 println("P: ${p?.name}")
                 m = p?.let {
                     ManageModuleGUI.mh.createModule(it, moduleName, moduleCode, programmeCode, term.toInt(), year.toInt())
@@ -264,7 +264,7 @@ class FilePersistence: Persistence()
 
                 //create new activity instances from given data in csv
                 //get module from module code and attach to activity
-                var m: Modules? = ManageModuleGUI.mh.getModule(moduleCode)
+                val m: Modules? = ManageModuleGUI.mh.getModule(moduleCode)
                 println("M: ${m?.name}")
                 a = m?.let {
                     ManageActivityGUI.ah.createActivity(it, room, type, moduleCode, timeStart, timeEnd, day)

@@ -1,0 +1,27 @@
+
+Q
+java:S2696p"6Make the enclosing method "static" or remove this set.(ÁÏà‰üÿÿÿÿ
+Q
+java:S2696q"6Make the enclosing method "static" or remove this set.(Ò™Ü‹þÿÿÿÿ
+D
+java:S1128".Remove this unused import 'java.util.Objects'.(¼¸õ›
+u
+java:S2293š"YReplace the type specification in this constructor call with the diamond operator ("<>").(±”œ™ýÿÿÿÿ
+p
+java:S2293ž"YReplace the type specification in this constructor call with the diamond operator ("<>").(››Ëª
+j
+java:S1104€"NMake mh a static final constant or non-public and provide accessors if needed.(Ú¸Ú¢þÿÿÿÿ
+s
+java:S1104•"WMake selectModel a static final constant or non-public and provide accessors if needed.(¡­³Óøÿÿÿÿ
+h
+java:S1104¡"QMake table a static final constant or non-public and provide accessors if needed.(ÎÈ‚ä
+g
+java:S1104¢"QMake model a static final constant or non-public and provide accessors if needed.(¾Ìý
+D
+java:S1444€"(Make this "public static mh" field final(Ú¸Ú¢þÿÿÿÿ
+M
+java:S1444•"1Make this "public static selectModel" field final(¡­³Óøÿÿÿÿ
+B
+java:S1444¡"+Make this "public static table" field final(ÎÈ‚ä
+A
+java:S1444¢"+Make this "public static model" field final(¾Ìý

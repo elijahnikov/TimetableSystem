@@ -13,7 +13,6 @@ class CreateData {
         mainPanel: JPanel
     )
     {
-
         if (codeField.text.equals("") || nameField.text.equals("") || (!postBtn.isSelected && !underBtn.isSelected))
         {
             JOptionPane.showMessageDialog(
@@ -25,7 +24,6 @@ class CreateData {
         }
         else
         {
-
             val type: String = if (postBtn.isSelected)
             {
                 "Postgraduate"
@@ -95,7 +93,6 @@ class CreateData {
         }
         else
         {
-
             //create module instance
             val m: Modules = ManageModuleGUI.mh.createModule(
                 ManageProgrammeGUI.ph.getProgramme(programmeCode)!!,
@@ -141,85 +138,43 @@ class CreateData {
         moduleSelect: JComboBox<String>,
         dateInput: String,
         lengthSelect: JComboBox<Int>,
-        daySelect: JComboBox<String>,
-        mainPanel: JPanel
+        daySelect: JComboBox<String>
     )
     {
-
         val moduleCode: String = moduleSelect.selectedItem as String
 
         val hour: Int = dateInput.substring(0, 2).toInt()
         val min: Int = dateInput.substring(3, 5).toInt()
         val length: Int = lengthSelect.selectedIndex + 1
 
-        //perform validation checks on input and perform clash detection
 
-        if (roomField.text.equals(""))//if room input is empty
-        {
-            JOptionPane.showMessageDialog(
-                mainPanel,
-                "Please ensure all fields are filled.",
-                "Error",
-                JOptionPane.ERROR_MESSAGE
-            )
-        }
-        else if (valid.validateDate(hour, min, length))//check for incorrect times, e.g. before 9 am or after 9pm
-        {
-            JOptionPane.showMessageDialog(
-                mainPanel,
-                "Please ensure the duration of the activity is between the hours of 09:00 and 21:00",
-                "Error",
-                JOptionPane.ERROR_MESSAGE
-            )
-        }
-        else if (
-            clashes.checkForClashes(
-                dateInput,
-                valid.getEndTime(hour, min, length),
-                daySelect.selectedItem.toString(),
-                moduleCode,
-                ManageModuleGUI.mh.modulesList,
-                ManageActivityGUI.ah.activityList
-            ).size > 0
+        val a: Activity = ManageActivityGUI.ah.createActivity(
+            ManageModuleGUI.mh.getModule(moduleCode)!!,
+            roomField.text,
+            typeSelect.selectedItem as String,
+            moduleCode,
+            dateInput,
+            valid.getEndTime(hour, min, length),
+            daySelect.selectedItem as String
         )
-        {
-            JOptionPane.showMessageDialog(
-                mainPanel,
-                clashes.clashesToString(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE
-            )
-        }
-        else
-        {
-            val a: Activity = ManageActivityGUI.ah.createActivity(
-                ManageModuleGUI.mh.getModule(moduleCode)!!,
-                roomField.text,
-                typeSelect.selectedItem as String,
-                moduleCode,
-                dateInput,
-                valid.getEndTime(hour, min, length),
-                daySelect.selectedItem as String
-            )
 
-            ManageActivityGUI.ah.addActivity(a)
+        ManageActivityGUI.ah.addActivity(a)
 
-            //add instance details to table
-            ManageActivityGUI.model.addRow(
-                arrayOf<Any>(
-                    ManageActivityGUI.ah.activityList[ManageActivityGUI.ah.activityList.size - 1].toString()
-                        .replace("Activity@", ""),
-                    ManageActivityGUI.ah.activityList[ManageActivityGUI.ah.activityList.size - 1].room,
-                    ManageActivityGUI.ah.activityList[ManageActivityGUI.ah.activityList.size - 1].type,
-                    ManageActivityGUI.ah.activityList[ManageActivityGUI.ah.activityList.size - 1].moduleCode,
-                    ManageActivityGUI.ah.activityList[ManageActivityGUI.ah.activityList.size - 1].start,
-                    ManageActivityGUI.ah.activityList[ManageActivityGUI.ah.activityList.size - 1].end,
-                    ManageActivityGUI.ah.activityList[ManageActivityGUI.ah.activityList.size - 1].day
-                )
+        //add instance details to table
+        ManageActivityGUI.model.addRow(
+            arrayOf<Any>(
+                ManageActivityGUI.ah.activityList[ManageActivityGUI.ah.activityList.size - 1].toString()
+                    .replace("Activity@", ""),
+                ManageActivityGUI.ah.activityList[ManageActivityGUI.ah.activityList.size - 1].room,
+                ManageActivityGUI.ah.activityList[ManageActivityGUI.ah.activityList.size - 1].type,
+                ManageActivityGUI.ah.activityList[ManageActivityGUI.ah.activityList.size - 1].moduleCode,
+                ManageActivityGUI.ah.activityList[ManageActivityGUI.ah.activityList.size - 1].start,
+                ManageActivityGUI.ah.activityList[ManageActivityGUI.ah.activityList.size - 1].end,
+                ManageActivityGUI.ah.activityList[ManageActivityGUI.ah.activityList.size - 1].day
             )
-        }
+        )
+
     }
 
     private val valid = DateValidation()
-    private val clashes = ClashDetection()
 }

@@ -2,6 +2,9 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class ManageModuleGUI
 {
@@ -21,6 +24,29 @@ public class ManageModuleGUI
                     mainPanel
             );
         });
+
+        //changing year select combo box depending on which type of programme is selected
+        //postgraduate = 1 year
+        //undergraduate = 3 years
+        programmeSelect.addActionListener (e ->
+        {
+            Programme p = ManageProgrammeGUI.ph.getProgramme(Objects.requireNonNull(programmeSelect.getSelectedItem()).toString());
+            if (p != null)
+            {
+                if (p.getType().equals("Undergraduate"))
+                {
+                    System.out.println(p.getType());
+                    yearSelect.setModel(undergraduateYearSelectModel);
+                }
+                else
+                {
+                    System.out.println(p.getType());
+                    yearSelect.setModel(postgraduateYearSelectModel);
+                }
+            }
+        });
+
+        yearSelect.setModel(undergraduateYearSelectModel);
 
         //sizing
         centerPanel.setMinimumSize(new Dimension(300, 350));
@@ -122,10 +148,7 @@ public class ManageModuleGUI
         return mainPanel;
     }
 
-    Modules m;
-    Programme p;
     public static ModuleHandler mh = new ModuleHandler();
-    ProgrammeHandler ph = ManageProgrammeGUI.ph;
 
     //variable declarations
     GridBagConstraints mainc = new GridBagConstraints();
@@ -150,12 +173,15 @@ public class ManageModuleGUI
     JLabel programmeLbl = new JLabel("Programme");
 
     String[] terms = {"Term 1: Sep-Dec", "Term 2: Jan-Apr"};
-    JComboBox<String> termSelect = new JComboBox<String>(terms);
+    JComboBox<String> termSelect = new JComboBox<>(terms);
     JLabel termLbl = new JLabel("Term");
 
     Integer[] years = {1, 2, 3};
-    JComboBox<Integer> yearSelect = new JComboBox<Integer>(years);
+    JComboBox<Integer> yearSelect = new JComboBox<>();
     JLabel yearLbl = new JLabel("Year");
+    DefaultComboBoxModel<Integer> undergraduateYearSelectModel = new DefaultComboBoxModel<>(new Integer[]{1, 2, 3});
+    DefaultComboBoxModel<Integer> postgraduateYearSelectModel = new DefaultComboBoxModel<>(new Integer[]{1});
+
 
     public static JTable table;
     public static DefaultTableModel model;

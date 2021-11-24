@@ -17,7 +17,7 @@ class ProgrammeHandler
 
     fun addProgramme(programme: Programme)
     {
-        programmeList.add(programme);
+        programmeList.add(programme)
     }
 
     fun getProgramme(pCode: String): Programme?

@@ -16,7 +16,6 @@ public class ManageProgrammeGUI
 
         addBtn.addActionListener(e ->
         {
-
             CreateData cd = new CreateData();
             cd.createProgramme(
                     nameField,
@@ -147,12 +146,14 @@ public class ManageProgrammeGUI
     ButtonGroup typeGroup = new ButtonGroup();
     JLabel typeLbl = new JLabel("Type");
 
+    public static TimetableGUI tg;
     public static JTable table;
     public static DefaultTableModel model;
     String[] column = {"ID", "Programme Name", "Programme Code", "Type", "Timetable"};
 
-    static TimetableGUI tg = new TimetableGUI();
-
+    //____________________________________________________________________________________________________________
+    //button renderer code for inserting button in each row
+    //code referenced from: http://www.java2s.com/Code/Java/Swing-Components/ButtonTableExample.htm
     static class ButtonRenderer extends JButton implements TableCellRenderer
     {
 
@@ -221,6 +222,7 @@ public class ManageProgrammeGUI
 
             if (isPushed)
             {
+                tg = new TimetableGUI();
                 tg.createGUI(value);
             }
             isPushed = false;
@@ -234,6 +236,8 @@ public class ManageProgrammeGUI
             return super.stopCellEditing();
         }
     }
+    //____________________________________________________________________________________________________________
+
 
 }
 

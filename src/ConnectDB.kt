@@ -4,7 +4,6 @@ import java.sql.DriverManager
 
 object ConnectDB
 {
-
     private const val url: String = "timetable"
     private const val user: String = "postgres"
     private const val pass: String = "postgres"
