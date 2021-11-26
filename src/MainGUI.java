@@ -64,12 +64,8 @@ public class MainGUI {
             AbstractButton radio = (AbstractButton) e.getSource();
             switch (radio.getText())
             {
-                case "Kotlin" -> {
-                    clashDetection = "Kotlin";
-                }
-                case "Scala" -> {
-                    clashDetection = "Scala";
-                }
+                case "Kotlin" -> clashDetection = "Kotlin";
+                case "Scala" -> clashDetection = "Scala";
             }
         };
 
@@ -87,17 +83,21 @@ public class MainGUI {
         tabbedPane.setEnabledAt(2, false);
         frame.add(tabbedPane);
 
+        //add buttons to menu bar
         menuBar.add(fileMenu);
         menuBar.add(editMenu);
         menuBar.add(clashMenu);
 
+        //add items to file menu
         fileMenu.add(saveToFileItem);
         fileMenu.add(saveToDBItem);
         fileMenu.add(exitItem);
 
+        //add items to edit menu
         editMenu.add(loadFromFileItem);
         editMenu.add(loadFromDBItem);
 
+        //add items to clash menu
         clashMenu.add(kotlinClash);
         clashMenu.add(scalaClash);
         clashGrp.add(kotlinClash);

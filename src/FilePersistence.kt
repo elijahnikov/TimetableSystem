@@ -1,15 +1,12 @@
-import java.io.BufferedReader
-import java.io.File
-import java.io.PrintWriter
+import java.io.*
 import java.util.*
-
 
 class FilePersistence: Persistence()
 {
 
-    var p: Programme? = null
-    var m: Modules? = null
-    var a: Activity? = null
+    private var p: Programme? = null
+    private var m: Modules? = null
+    private var a: Activity? = null
 
     //save data to file
     override fun save(
@@ -20,11 +17,13 @@ class FilePersistence: Persistence()
     {
 
         //save programmes
-        try {
+        try
+        {
             PrintWriter("programmes.csv").use { writer ->
                 val sb = StringBuilder()
                 for (programme in programmeList)
                 {
+                    //save each programme and its details to a line, separated by commas
                     sb.append(programme.name)
                     sb.append(",")
                     sb.append(programme.code)
@@ -34,17 +33,20 @@ class FilePersistence: Persistence()
                 }
                 writer.write(sb.toString())
             }
-        } catch (e: Exception)
+        }
+        catch (e: IOException)
         {
             e.printStackTrace()
         }
 
         //saving modules
-        try {
+        try
+        {
             PrintWriter("modules.csv").use { writer ->
                 val sb = StringBuilder()
                 for (modules in moduleList)
                 {
+                    //save each module and its details to a line, separated by commas
                     sb.append(modules.name)
                     sb.append(",")
                     sb.append(modules.code)
@@ -58,17 +60,20 @@ class FilePersistence: Persistence()
                 }
                 writer.write(sb.toString())
             }
-        } catch (e: Exception)
+        }
+        catch (e: IOException)
         {
             e.printStackTrace()
         }
 
         //saving activities
-        try {
+        try
+        {
             PrintWriter("activities.csv").use { writer ->
                 val sb = StringBuilder()
                 for (activity in activityList)
                 {
+                    //save each activity and its details to a line, separated by commas
                     sb.append(activity.room)
                     sb.append(",")
                     sb.append(activity.type)
@@ -84,7 +89,8 @@ class FilePersistence: Persistence()
                 }
                 writer.write(sb.toString())
             }
-        } catch (e: Exception)
+        }
+        catch (e: IOException)
         {
             e.printStackTrace()
         }
@@ -94,10 +100,12 @@ class FilePersistence: Persistence()
     override fun load()
     {
 
+        //call to load functions, csv location is in project directory
         loadProgrammes(System.getProperty("user.dir") + "\\programmes.csv")
         loadModules(System.getProperty("user.dir") + "\\modules.csv")
         loadActivities(System.getProperty("user.dir") + "\\activities.csv")
 
+        //enable module and activity panes when data has been loaded in
         if (ManageProgrammeGUI.ph.programmeList.size > 0)
         {
             MainGUI.tabbedPane.setEnabledAt(1, true)
@@ -117,7 +125,7 @@ class FilePersistence: Persistence()
                     programme.name,
                     programme.code,
                     programme.type,
-                    "Open"
+                    "Open"//necessary for giving button in column "Open" text
                 )
             )
             //add programme code to programme select in module gui
@@ -185,9 +193,9 @@ class FilePersistence: Persistence()
                 ManageProgrammeGUI.ph.addProgramme(p!!)
             }
             scanner.close()
-        } catch (e: Exception)
+        } catch (e: FileNotFoundException)
         {
-            e.printStackTrace()
+            println("File not found. Please ensure you save some data before loading.")
         }
     }
 
@@ -228,9 +236,9 @@ class FilePersistence: Persistence()
 
             }
             scanner.close()
-        } catch (e: Exception)
+        } catch (e: FileNotFoundException)
         {
-            e.printStackTrace()
+            println("File not found. Please ensure you save some data before loading.")
         }
     }
 
@@ -273,12 +281,13 @@ class FilePersistence: Persistence()
 
             }
             scanner.close()
-        } catch (e: Exception)
+        } catch (e: FileNotFoundException)
         {
-            e.printStackTrace()
+            println("File not found. Please ensure you save some data before loading.")
         }
     }
 
+    //function to read file and return a buffered reader
     private fun readFile(path: String): String
     {
         val bufferedReader: BufferedReader = File(path).bufferedReader()

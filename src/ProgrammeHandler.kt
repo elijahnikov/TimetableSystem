@@ -20,16 +20,22 @@ class ProgrammeHandler
         programmeList.add(programme)
     }
 
+    //first method used of getting programme
+//    fun getProgramme(pCode: String): Programme?
+//    {
+//        for (programme in programmeList)
+//        {
+//            if (programme.code == pCode)
+//            {
+//                return programme
+//            }
+//        }
+//        return null
+//    }
+
     fun getProgramme(pCode: String): Programme?
     {
-        for (programme in programmeList)
-        {
-            if (programme.code == pCode)
-            {
-                return programme
-            }
-        }
-        return null
+        return programmeList.find { p -> p.code == pCode }
     }
 
 }

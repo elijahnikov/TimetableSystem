@@ -14,6 +14,7 @@ public class ManageProgrammeGUI
         underBtn.setActionCommand("Undergraduate");
         postBtn.setActionCommand("Postgraduate");
 
+        //add programme button
         addBtn.addActionListener(e ->
         {
             CreateData cd = new CreateData();
@@ -22,7 +23,9 @@ public class ManageProgrammeGUI
                     codeField,
                     postBtn,
                     underBtn,
-                    mainPanel
+                    mainPanel,
+                    ph,
+                    model
             );
         });
 

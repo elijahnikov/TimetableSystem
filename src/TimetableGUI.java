@@ -1,8 +1,10 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class TimetableGUI
 {
@@ -17,23 +19,22 @@ public class TimetableGUI
             switch (radio.getText())
             {
                 case "Year 1" -> {
+                    //if changed to year 1, clear table and call mapToTimetableRows again
+                    //repeat for other years and terms
                     year = 1;
                     clearTable();
-                    System.out.println(year);
                     tmr = new TimeRowMap();
                     tmr.mapToTimetableRows(code, term, year);
                 }
                 case "Year 2" -> {
                     year = 2;
                     clearTable();
-                    System.out.println(year);
                     tmr = new TimeRowMap();
                     tmr.mapToTimetableRows(code, term, year);
                 }
                 case "Year 3" -> {
                     year = 3;
                     clearTable();
-                    System.out.println(year);
                     tmr = new TimeRowMap();
                     tmr.mapToTimetableRows(code, term, year);
                 }
@@ -49,41 +50,74 @@ public class TimetableGUI
                 case "Term 1" -> {
                     term = 1;
                     clearTable();
-                    System.out.println(term);
                     tmr = new TimeRowMap();
                     tmr.mapToTimetableRows(code, term, year);
                 }
                 case "Term 2" -> {
                     term = 2;
                     clearTable();
-                    System.out.println(term);
                     tmr = new TimeRowMap();
                     tmr.mapToTimetableRows(code, term, year);
                 }
                 case "Term 3" -> {
                     term = 3;
                     clearTable();
-                    System.out.println(term);
                     tmr = new TimeRowMap();
                     tmr.mapToTimetableRows(code, term, year);
                 }
             }
         };
 
+        //exit listener, exits the timetable but not entire application
         exitItem.addActionListener(e -> {
             frame.setVisible(false);
             frame.dispose();
         });
 
         model = new DefaultTableModel(null, days) {};
-        timetable = new JTable(model);
+        timetable = new JTable(model)
+        {
+            //override function for setting color for cells containing activities
+            //code referenced and modified from: https://coderedirect.com/questions/354017/jtable-set-cell-color-at-specific-value
+            @Override
+            public Component prepareRenderer(TableCellRenderer renderer, int row, int col)
+            {
+                Component c = super.prepareRenderer(renderer, row, col);
+                Object value = getModel().getValueAt(row, col);
+                if (value != null)
+                {
+                    //activities can be of different names, regex checks if cell starts with a character a through z
+                    if (!Arrays.asList(times).contains(value.toString()) && !value.toString().equals(""))
+                    {
+                        c.setBackground(new Color(161, 197, 255));
+                        c.setFont(c.getFont().deriveFont(Font.BOLD, 14f));
+                    }
+                    //set time column to a light gray to differentiate from other cells
+                    else if (Arrays.asList(times).contains(value.toString()))
+                    {
+                        c.setBackground(Color.lightGray);
+                    }
+                    else
+                    {
+                        c.setBackground(Color.white);
+                    }
+                }
+                else
+                {
+                    c.setBackground(Color.white);
+                }
+
+                return c;
+            }
+            //______________________________________________________________________________________________________________________
+        };
 
         timetable.getColumnModel().getColumn(0).setPreferredWidth(5);
-        timetable.getColumnModel().getColumn(1).setPreferredWidth(200);
-        timetable.getColumnModel().getColumn(2).setPreferredWidth(200);
-        timetable.getColumnModel().getColumn(3).setPreferredWidth(200);
-        timetable.getColumnModel().getColumn(4).setPreferredWidth(200);
-        timetable.getColumnModel().getColumn(5).setPreferredWidth(200);
+        timetable.getColumnModel().getColumn(1).setPreferredWidth(300);
+        timetable.getColumnModel().getColumn(2).setPreferredWidth(300);
+        timetable.getColumnModel().getColumn(3).setPreferredWidth(300);
+        timetable.getColumnModel().getColumn(4).setPreferredWidth(300);
+        timetable.getColumnModel().getColumn(5).setPreferredWidth(300);
         timetable.setRowHeight(30);
         timetable.setShowGrid(true);
         timetable.setGridColor(Color.lightGray);
@@ -106,10 +140,12 @@ public class TimetableGUI
                     }
                 });
 
+        //adds all the times to the first column
         for (String time : times)
         {
             model.addRow(new Object[]{time});
         }
+
 
         //if programme is undergraduate show all years in menu bar
         //if programme is postgraduate show 1 year in menu bar
@@ -158,7 +194,7 @@ public class TimetableGUI
         termMenu.add(term3Item);
 
         frame.setJMenuBar(menuBar);
-        frame.setPreferredSize(new Dimension(1400, 800));
+        frame.setPreferredSize(new Dimension(1920, 800));
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.setResizable(false);
         frame.add(mainPanel);
@@ -172,6 +208,7 @@ public class TimetableGUI
         tmr.mapToTimetableRows(code, 1, 1);
     }
 
+    //function to go through all rows and columns and clear cells
     public void clearTable()
     {
         for (int i = 0; i < model.getRowCount(); i++) {

@@ -1,6 +1,8 @@
 class TimeRowMap
 {
 
+    //class to map all activities in specific programme to rows and columns in timetable table
+
     //array of times
     private val times = arrayOf(
         "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00",
@@ -18,21 +20,22 @@ class TimeRowMap
     )
 
     //map times to row indexes
+    //can instead instantiate hashmap with times and index but this is more concise
     private fun timeHashMap(): HashMap<String, Int>
     {
+        //hashmap with 24 key value pairs
         val hashMap: HashMap<String, Int> = HashMap(24)
         for ((index, value) in times.withIndex())
         {
-            hashMap[value] = index + 1
+            hashMap[value] = index + 1 //plus one is necessary to avoid first row in timetable table
         }
         return hashMap
     }
 
     fun mapToTimetableRows(code: String, term: Int, year: Int)
     {
-        //default term and year to 1
 
-        //list of modules programme code that user opens to view timetable
+        //list of modules by programme code that user opens to view timetable
         val moduleList: MutableList<Modules> = ManageModuleGUI.mh.getModuleByProgramme(code)
 
         //all activities in said programme
@@ -52,21 +55,22 @@ class TimeRowMap
                     //array of index's
                     indexArr = mutableListOf()
 
-                    //add index of time start to arr
+                    //get index of start time and add to indexArr from timeHashMap
                     timeHashMap()[ac.start]?.let { indexArr.add(it) }
+                    //get index of end time and add to indexArr from timeHashMap
                     val num: Int? = timeHashMap()[ac.end]
-                    //add index of time end to arr
                     if (num != null)//null in case of bad entry
                     {
                         indexArr.add(num - 1)
                     }
+                    //this is necessary as we need to get all the row indexes between start and end rows
 
-                    //loop between two numbers in indexArr, first number = first row, second number = last row
-                    //e.g. indexArr[0] == 10 and indexArr[1] == 15, loop and set values at row indexes between 10 and 15
+                    //loop between the two numbers in indexArr, first number = first row, second number = last row
+                    //e.g. if indexArr[0] == 10 and indexArr[1] == 15, loop and set values at row indexes between 10 and 15
                     for (i in indexArr[0]..indexArr[1])
                     {
                         //add to timetable table
-                        TimetableGUI.model.setValueAt("Module: ${module.name}: \n${ac.room} - ${ac.type}", i - 1, days[ac.day]!!)
+                        TimetableGUI.model.setValueAt("${module.name}, ${ac.room} - ${ac.type}", i - 1, days[ac.day]!!)
                     }
                 }
             }

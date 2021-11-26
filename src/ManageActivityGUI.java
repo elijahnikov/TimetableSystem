@@ -12,16 +12,22 @@ public class ManageActivityGUI
     public JComponent activityGUIHandler()
     {
 
+        //add button
         addBtn.addActionListener(e ->
         {
 
+            //gets input from spinner and HH:mm format
             String dateInput = de.getFormat().format(spinner.getValue());
 
+            //module code from combobox
             String moduleCode = (String) moduleSelect.getSelectedItem();
+
+            //parse selected time into hour and min
             int hour = Integer.parseInt(dateInput.substring(0, 2));
             int min = Integer.parseInt(dateInput.substring(3, 5));
             int length = lengthSelect.getSelectedIndex() + 1;
 
+            //if roomfield input is empty
             if (roomField.getText().equals(""))
             {
                 JOptionPane.showMessageDialog(
@@ -31,6 +37,7 @@ public class ManageActivityGUI
                         JOptionPane.ERROR_MESSAGE
                 );
             }
+            //if validate date function returns any errors (true)
             else if (valid.validateDate(hour, min, length))
             {
                 JOptionPane.showMessageDialog(
@@ -43,10 +50,12 @@ public class ManageActivityGUI
             }
             //clash detection with kotlin
             else if (MainGUI.clashDetection.equals("Kotlin") &&
-                    kotlinClash.checkForClashes(dateInput,
+                    kotlinClash.checkForClashes(
+                            dateInput,
                             valid.getEndTime(hour, min, length),
                             Objects.requireNonNull(daySelect.getSelectedItem()).toString(),
-                            Objects.requireNonNull(moduleCode)).size() > 0)
+                            Objects.requireNonNull(moduleCode)
+                    ).size() > 0)
             {
                 JOptionPane.showMessageDialog(
                         mainPanel,
@@ -57,10 +66,12 @@ public class ManageActivityGUI
             }
             //clash detection with scala
             else if (MainGUI.clashDetection.equals("Scala") &&
-                    scalaClash.checkForClashes(dateInput,
+                    scalaClash.checkForClashes(
+                            dateInput,
                             valid.getEndTime(hour, min, length),
                             Objects.requireNonNull(daySelect.getSelectedItem()).toString(),
-                            moduleCode).size() > 0)
+                            moduleCode
+                    ).size() > 0)
             {
                 JOptionPane.showMessageDialog(
                         mainPanel,
@@ -77,7 +88,9 @@ public class ManageActivityGUI
                         moduleSelect,
                         dateInput,
                         lengthSelect,
-                        daySelect
+                        daySelect,
+                        ah,
+                        model
                 );
             }
         });

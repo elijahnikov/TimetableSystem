@@ -5,7 +5,7 @@ class Activity (
     var moduleCode: String,
     var start: String,
     var end: String,
-    var day: String,
+    var day: String
     )
 {
     init

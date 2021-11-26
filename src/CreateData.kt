@@ -1,4 +1,5 @@
 import javax.swing.*
+import javax.swing.table.DefaultTableModel
 
 class CreateData {
 
@@ -10,10 +11,13 @@ class CreateData {
         codeField: JTextField,
         postBtn: JRadioButton,
         underBtn: JRadioButton,
-        mainPanel: JPanel
+        mainPanel: JPanel,
+        programmeHandler: ProgrammeHandler,
+        model: DefaultTableModel
     )
     {
-        if (codeField.text.equals("") || nameField.text.equals("") || (!postBtn.isSelected && !underBtn.isSelected))
+        //if code field and name field are empty, if programme type is not selected
+        if (codeField.text == "" || nameField.text == "" || (!postBtn.isSelected && !underBtn.isSelected))
         {
             JOptionPane.showMessageDialog(
                 mainPanel,
@@ -24,6 +28,7 @@ class CreateData {
         }
         else
         {
+            //set programme type
             val type: String = if (postBtn.isSelected)
             {
                 "Postgraduate"
@@ -32,36 +37,34 @@ class CreateData {
             }
 
             //create programme instance
-            val p: Programme = ManageProgrammeGUI.ph.createProgramme(
+            val p: Programme = programmeHandler.createProgramme(
                 nameField.text,
                 codeField.text,
                 type
             )
 
             //add instance to list of programmes
-            ManageProgrammeGUI.ph.addProgramme(p)
+            programmeHandler.addProgramme(p)
 
             //add instance details to table
-
-            //add instance details to table
-            ManageProgrammeGUI.model.addRow(
+            model.addRow(
                 arrayOf<Any>(
-                    ManageProgrammeGUI.ph.programmeList[ManageProgrammeGUI.ph.programmeList.size - 1].toString()
+                    programmeHandler.programmeList[programmeHandler.programmeList.size - 1].toString()
                         .replace("Programme@", ""),
-                    ManageProgrammeGUI.ph.programmeList[ManageProgrammeGUI.ph.programmeList.size - 1].name,
-                    ManageProgrammeGUI.ph.programmeList[ManageProgrammeGUI.ph.programmeList.size - 1].code,
-                    ManageProgrammeGUI.ph.programmeList[ManageProgrammeGUI.ph.programmeList.size - 1].type,
+                    programmeHandler.programmeList[programmeHandler.programmeList.size - 1].name,
+                    programmeHandler.programmeList[programmeHandler.programmeList.size - 1].code,
+                    programmeHandler.programmeList[programmeHandler.programmeList.size - 1].type,
                     "Open"
                 )
             )
 
             //add programme codes from instance to combobox in module class
             ManageModuleGUI.selectModel.addElement(
-                ManageProgrammeGUI.ph.programmeList[ManageProgrammeGUI.ph.programmeList.size - 1].code
+                programmeHandler.programmeList[programmeHandler.programmeList.size - 1].code
             )
 
             //enable module pane when a programme is created
-            if (ManageProgrammeGUI.ph.programmeList.size > 0)
+            if (programmeHandler.programmeList.size > 0)
             {
                 MainGUI.tabbedPane.setEnabledAt(1, true)
             }
@@ -76,13 +79,17 @@ class CreateData {
         programmeSelect: JComboBox<String>,
         termSelect: JComboBox<String>,
         yearSelect: JComboBox<Int>,
-        mainPanel: JPanel
+        mainPanel: JPanel,
+        moduleHandler: ModuleHandler,
+        model: DefaultTableModel
     )
     {
 
+        //get programme code from combobox
         val programmeCode: String = programmeSelect.selectedItem as String
 
-        if (codeField.text.equals("") || nameField.text.equals("") || programmeSelect.selectedItem == null)
+        //if code field or name field is empty, or by chance a programme code is not selected (very unlikely to happen)
+        if (codeField.text == "" || nameField.text == "" || programmeSelect.selectedItem == null)
         {
             JOptionPane.showMessageDialog(
                 mainPanel,
@@ -93,39 +100,61 @@ class CreateData {
         }
         else
         {
-            //create module instance
-            val m: Modules = ManageModuleGUI.mh.createModule(
-                ManageProgrammeGUI.ph.getProgramme(programmeCode)!!,
-                nameField.text,
-                codeField.text,
-                programmeCode,
-                termSelect.selectedIndex + 1,
-                yearSelect.selectedItem as Int
-            )
 
-            //add module instance to list of modules
-            ManageModuleGUI.mh.addModule(m)
-
-            //add instance details to table
-            ManageModuleGUI.model.addRow(
-                arrayOf<Any>(
-                    ManageModuleGUI.mh.modulesList[ManageModuleGUI.mh.modulesList.size - 1].toString()
-                        .replace("Modules@", ""),
-                    ManageModuleGUI.mh.modulesList[ManageModuleGUI.mh.modulesList.size - 1].name,
-                    ManageModuleGUI.mh.modulesList[ManageModuleGUI.mh.modulesList.size - 1].code,
-                    ManageModuleGUI.mh.modulesList[ManageModuleGUI.mh.modulesList.size - 1].programmeCode,
-                    ManageModuleGUI.mh.modulesList[ManageModuleGUI.mh.modulesList.size - 1].term,
-                    ManageModuleGUI.mh.modulesList[ManageModuleGUI.mh.modulesList.size - 1].year
-                )
-            )
-
-            //add module codes from instance to combobox in activity class
-            ManageActivityGUI.selectModel.addElement(ManageModuleGUI.mh.modulesList[ManageModuleGUI.mh.modulesList.size - 1].code)
-
-            //enable activity pane when a module is created
-            if (ManageModuleGUI.mh.modulesList.size > 0)
+            //test to check if module code is unique
+            var uniqueTest = false
+            for (module in moduleHandler.modulesList)
             {
-                MainGUI.tabbedPane.setEnabledAt(2, true)
+                if (module.code == codeField.text)
+                {
+                    uniqueTest = true
+                }
+            }
+
+            //if input module code already exists
+            if (uniqueTest)
+            {
+                JOptionPane.showMessageDialog(
+                    mainPanel,
+                    "Module codes must be unique.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+                )
+            } else {
+
+                //create module instance
+                val m: Modules = moduleHandler.createModule(
+                    ManageProgrammeGUI.ph.getProgramme(programmeCode)!!,
+                    nameField.text,
+                    codeField.text,
+                    programmeCode,
+                    termSelect.selectedIndex + 1,
+                    yearSelect.selectedItem as Int
+                )
+
+                //add module instance to list of modules
+                moduleHandler.addModule(m)
+
+                model.addRow(
+                    arrayOf<Any>(
+                        moduleHandler.modulesList[moduleHandler.modulesList.size - 1].toString()
+                            .replace("Modules@", ""),
+                        moduleHandler.modulesList[moduleHandler.modulesList.size - 1].name,
+                        moduleHandler.modulesList[moduleHandler.modulesList.size - 1].code,
+                        moduleHandler.modulesList[moduleHandler.modulesList.size - 1].programmeCode,
+                        moduleHandler.modulesList[moduleHandler.modulesList.size - 1].term,
+                        moduleHandler.modulesList[moduleHandler.modulesList.size - 1].year
+                    )
+                )
+
+                //add module codes from instance to combobox in activity class
+                ManageActivityGUI.selectModel.addElement(moduleHandler.modulesList[moduleHandler.modulesList.size - 1].code)
+
+                //enable activity pane when a module is created
+                if (moduleHandler.modulesList.size > 0)
+                {
+                    MainGUI.tabbedPane.setEnabledAt(2, true)
+                }
             }
         }
 
@@ -138,17 +167,27 @@ class CreateData {
         moduleSelect: JComboBox<String>,
         dateInput: String,
         lengthSelect: JComboBox<Int>,
-        daySelect: JComboBox<String>
+        daySelect: JComboBox<String>,
+        activityHandler: ActivityHandler,
+        model: DefaultTableModel
     )
     {
+
+        //slight error here; as with programme and modules, validation is meant to occur here as well.
+        //however, I have not figured out a way to call scala classes in kotlin, which means
+        //validation has to occur in java side because of second clash detection implementation in scala
+        //definitely need to research more on this
+
+        //module code from module select
         val moduleCode: String = moduleSelect.selectedItem as String
 
+        //get hour and minutes and length from gui inputs
         val hour: Int = dateInput.substring(0, 2).toInt()
         val min: Int = dateInput.substring(3, 5).toInt()
         val length: Int = lengthSelect.selectedIndex + 1
 
-
-        val a: Activity = ManageActivityGUI.ah.createActivity(
+        //create activity instance
+        val a: Activity = activityHandler.createActivity(
             ManageModuleGUI.mh.getModule(moduleCode)!!,
             roomField.text,
             typeSelect.selectedItem as String,
@@ -158,19 +197,20 @@ class CreateData {
             daySelect.selectedItem as String
         )
 
-        ManageActivityGUI.ah.addActivity(a)
+        //add activity class instance to list
+        activityHandler.addActivity(a)
 
         //add instance details to table
-        ManageActivityGUI.model.addRow(
+        model.addRow(
             arrayOf<Any>(
-                ManageActivityGUI.ah.activityList[ManageActivityGUI.ah.activityList.size - 1].toString()
+                activityHandler.activityList[activityHandler.activityList.size - 1].toString()
                     .replace("Activity@", ""),
-                ManageActivityGUI.ah.activityList[ManageActivityGUI.ah.activityList.size - 1].room,
-                ManageActivityGUI.ah.activityList[ManageActivityGUI.ah.activityList.size - 1].type,
-                ManageActivityGUI.ah.activityList[ManageActivityGUI.ah.activityList.size - 1].moduleCode,
-                ManageActivityGUI.ah.activityList[ManageActivityGUI.ah.activityList.size - 1].start,
-                ManageActivityGUI.ah.activityList[ManageActivityGUI.ah.activityList.size - 1].end,
-                ManageActivityGUI.ah.activityList[ManageActivityGUI.ah.activityList.size - 1].day
+                activityHandler.activityList[activityHandler.activityList.size - 1].room,
+                activityHandler.activityList[activityHandler.activityList.size - 1].type,
+                activityHandler.activityList[activityHandler.activityList.size - 1].moduleCode,
+                activityHandler.activityList[activityHandler.activityList.size - 1].start,
+                activityHandler.activityList[activityHandler.activityList.size - 1].end,
+                activityHandler.activityList[activityHandler.activityList.size - 1].day
             )
         )
 

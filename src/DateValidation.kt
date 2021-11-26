@@ -1,6 +1,6 @@
 class DateValidation {
 
-    //date validation
+    //date time validation, if returns true then there is an error
     fun validateDate(hour: Int, time: Int, length: Int): Boolean
     {
 
@@ -12,6 +12,7 @@ class DateValidation {
         } else {
             "$time"
         }
+        //hour format is final military time
         val hourFormat: Int = "$hour$timeFormat".toInt()
         val lengthFormat: Int = length * 100
 
@@ -42,8 +43,11 @@ class DateValidation {
         return false
     }
 
+    //function to get end time from start time and length
     fun getEndTime(hour: Int, time: Int, length: Int): String
     {
+        //as the earliest time possible is 09:00, no work on leading zeros needs to be done
+        //e.g. a 09:00 activity will always end on or after 10:00
         val endHour = hour + length
         val timeFormat: String = if (time < 10)
         {

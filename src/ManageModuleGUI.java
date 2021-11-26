@@ -2,8 +2,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Objects;
 
 public class ManageModuleGUI
@@ -11,7 +9,7 @@ public class ManageModuleGUI
 
     public JComponent moduleGUIHandler()
     {
-
+        //add module button
         addBtn.addActionListener(e ->
         {
             CreateData cd = new CreateData();
@@ -21,7 +19,9 @@ public class ManageModuleGUI
                     programmeSelect,
                     termSelect,
                     yearSelect,
-                    mainPanel
+                    mainPanel,
+                    mh,
+                    model
             );
         });
 
@@ -35,17 +35,16 @@ public class ManageModuleGUI
             {
                 if (p.getType().equals("Undergraduate"))
                 {
-                    System.out.println(p.getType());
                     yearSelect.setModel(undergraduateYearSelectModel);
                 }
                 else
                 {
-                    System.out.println(p.getType());
                     yearSelect.setModel(postgraduateYearSelectModel);
                 }
             }
         });
 
+        //sets initial model for year select as undergraduate
         yearSelect.setModel(undergraduateYearSelectModel);
 
         //sizing
