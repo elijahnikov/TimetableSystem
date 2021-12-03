@@ -10,6 +10,7 @@ class ClashDetectionScala
                            timeEnd: String,
                            day: String,
                            moduleCode: String,
+                           room: String
                        ): ListBuffer[Activity] = {
 
         clashes = new ListBuffer[Activity]
@@ -29,24 +30,28 @@ class ClashDetectionScala
                 if ((moduleToCheck.getYear == m.getYear) && (moduleToCheck.getTerm == m.getTerm))
                 {
                     activityList.forEach(a => {
-                        val activityStart = sdf.parse(a.getStart)
-                        val activityEnd = sdf.parse(a.getEnd)
-                        val mc: Modules = ManageModuleGUI.mh.getModule(a.getModuleCode)
 
-                        if (
-                            a.getDay == day &&
-                                    mc.getYear == moduleToCheck.getYear &&
-                                    mc.getTerm == moduleToCheck.getTerm &&
-                                    ((start.after(activityStart) && start.before(activityEnd)) ||
-                                            (end.after(activityStart) && end.before(activityEnd)) ||
-                                            (start == activityStart && end == activityEnd) ||
-                                            ((start.before(activityStart) || start.after(activityStart)) && end == activityEnd) ||
-                                            (start == activityStart && (end.before(activityEnd) || end.after(activityEnd))))
-                        )
+                        if (a.getRoom == room)
                         {
-                            if (!clashes.contains(a))
+                            val activityStart = sdf.parse(a.getStart)
+                            val activityEnd = sdf.parse(a.getEnd)
+                            val mc: Modules = ManageModuleGUI.mh.getModule(a.getModuleCode)
+
+                            if (
+                                a.getDay == day &&
+                                  mc.getYear == moduleToCheck.getYear &&
+                                  mc.getTerm == moduleToCheck.getTerm &&
+                                  ((start.after(activityStart) && start.before(activityEnd)) ||
+                                    (end.after(activityStart) && end.before(activityEnd)) ||
+                                    (start == activityStart && end == activityEnd) ||
+                                    ((start.before(activityStart) || start.after(activityStart)) && end == activityEnd) ||
+                                    (start == activityStart && (end.before(activityEnd) || end.after(activityEnd))))
+                            )
                             {
-                                clashes.addOne(a)
+                                if (!clashes.contains(a))
+                                {
+                                    clashes.addOne(a)
+                                }
                             }
                         }
                     })
@@ -62,6 +67,7 @@ class ClashDetectionScala
 
         for (clash <- clashes)
         {
+            sb.append("- ")
             sb.append(clash.getRoom)
             sb.append(", ")
             sb.append(clash.getModuleCode)

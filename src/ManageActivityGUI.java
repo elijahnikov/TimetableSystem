@@ -54,7 +54,8 @@ public class ManageActivityGUI
                             dateInput,
                             valid.getEndTime(hour, min, length),
                             Objects.requireNonNull(daySelect.getSelectedItem()).toString(),
-                            Objects.requireNonNull(moduleCode)
+                            Objects.requireNonNull(moduleCode),
+                            roomField.getText()
                     ).size() > 0)
             {
                 JOptionPane.showMessageDialog(
@@ -70,7 +71,8 @@ public class ManageActivityGUI
                             dateInput,
                             valid.getEndTime(hour, min, length),
                             Objects.requireNonNull(daySelect.getSelectedItem()).toString(),
-                            moduleCode
+                            moduleCode,
+                            roomField.getText()
                     ).size() > 0)
             {
                 JOptionPane.showMessageDialog(
@@ -92,17 +94,19 @@ public class ManageActivityGUI
                         ah,
                         model
                 );
+
+                roomField.setText("");
             }
         });
 
         spinner.setEditor(de);
 
         //sizing
-        centerPanel.setMinimumSize(new Dimension(300, 330));
+        centerPanel.setMinimumSize(new Dimension(300, 380));
         centerPanel.setMaximumSize(centerPanel.getMinimumSize());
         centerPanel.setPreferredSize(centerPanel.getMinimumSize());
 
-        topPanel.setMinimumSize(new Dimension(500, 270));
+        topPanel.setMinimumSize(new Dimension(500, 350));
         topPanel.setMaximumSize(topPanel.getMinimumSize());
         topPanel.setPreferredSize(topPanel.getMinimumSize());
 

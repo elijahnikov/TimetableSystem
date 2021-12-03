@@ -1,7 +1,6 @@
 import java.sql.Connection
 import java.sql.DriverManager
 
-
 object ConnectDB
 {
     private const val url: String = "timetable"

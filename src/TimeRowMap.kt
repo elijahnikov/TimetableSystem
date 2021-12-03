@@ -70,12 +70,10 @@ class TimeRowMap
                     for (i in indexArr[0]..indexArr[1])
                     {
                         //add to timetable table
-                        TimetableGUI.model.setValueAt("${module.name}, ${ac.room} - ${ac.type}", i - 1, days[ac.day]!!)
+                        TimetableGUI.model.setValueAt("${module.name} (${module.code}), ${ac.room} - ${ac.type}", i - 1, days[ac.day]!!)
                     }
                 }
             }
-
         }
     }
-
 }

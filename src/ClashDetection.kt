@@ -12,7 +12,8 @@ class ClashDetection
         timeStart: String,
         timeEnd: String,
         day: String,
-        moduleCode: String
+        moduleCode: String,
+        room: String
     ): MutableList<Activity>
     {
         println("KOTLIN")
@@ -41,27 +42,30 @@ class ClashDetection
                     //for each activity in module
                     for (activity in activityList)
                     {
-                        //get activities start and end times as actual time format
-                        val activityStart: Date = sdf.parse(activity.start)
-                        val activityEnd: Date = sdf.parse(activity.end)
-                        //get module by activities module code
-                        val mc: Modules? = ManageModuleGUI.mh.getModule(activity.moduleCode)
-                        if (
-                            activity.day == day && //if activity is on same day as others
-                            mc?.year == moduleToCheck.year && //if said activities module is on same year and term as others
-                            mc.term == moduleToCheck.term && //then we compare the times
-                            ((start.after(activityStart) && start.before(activityEnd)) ||
-                            (end.after(activityStart) && end.before(activityEnd)) ||
-                            (start == activityStart && end == activityEnd) ||
-                            ((start.before(activityStart) || start.after(activityStart)) && end == activityEnd) ||
-                            (start == activityStart && (end.before(activityEnd) || end.after(activityEnd))))
-                            //last two checks are necessary to allow b2b activities to occur
-                        )
+                        if (activity.room == room)//check for if input room is same as existing activity room
                         {
-                            //if activity is not already in clashes list, add it
-                            if (activity !in clashes!!)
+                            //get activities start and end times as actual time format
+                            val activityStart: Date = sdf.parse(activity.start)
+                            val activityEnd: Date = sdf.parse(activity.end)
+                            //get module by activities module code
+                            val mc: Modules? = ManageModuleGUI.mh.getModule(activity.moduleCode)
+                            if (
+                                    activity.day == day && //if activity is on same day as others
+                                    mc?.year == moduleToCheck.year && //if said activities module is on same year and term as others
+                                    mc.term == moduleToCheck.term && //then we compare the times
+                                    ((start.after(activityStart) && start.before(activityEnd)) ||
+                                            (end.after(activityStart) && end.before(activityEnd)) ||
+                                            (start == activityStart && end == activityEnd) ||
+                                            ((start.before(activityStart) || start.after(activityStart)) && end == activityEnd) ||
+                                            (start == activityStart && (end.before(activityEnd) || end.after(activityEnd))))
+                            //last two checks are necessary to allow b2b activities to occur
+                            )
                             {
-                                clashes?.add(activity)
+                                //if activity is not already in clashes list, add it
+                                if (activity !in clashes!!)
+                                {
+                                    clashes?.add(activity)
+                                }
                             }
                         }
                     }
@@ -76,9 +80,10 @@ class ClashDetection
     {
         //if clashes append to string builder and display in popup message
         val sb = StringBuilder()
-        sb.append("There is/are ${clashes?.size} clash(es):")
+        sb.append("There is/are ${clashes?.size} clash(es): \n")
         for (clash in clashes!!)
         {
+            sb.append("- ")
             sb.append(clash.room)
             sb.append(", ")
             sb.append(clash.moduleCode)

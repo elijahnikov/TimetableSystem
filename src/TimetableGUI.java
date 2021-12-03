@@ -9,8 +9,13 @@ import java.util.Arrays;
 public class TimetableGUI
 {
 
+    public TimetableGUI() {
+    }
+
     public void createGUI(String code)
     {
+
+        frame = new JFrame("Timetable - " + code);
 
         //action listener for change of year
         ActionListener yearAction = e ->
@@ -89,7 +94,23 @@ public class TimetableGUI
                     //activities can be of different names, regex checks if cell starts with a character a through z
                     if (!Arrays.asList(times).contains(value.toString()) && !value.toString().equals(""))
                     {
-                        c.setBackground(new Color(161, 197, 255));
+                        if (value.toString().contains("Lab"))
+                        {
+                            c.setBackground(new Color(161, 197, 255));
+                        }
+                        else if (value.toString().contains("Lecture"))
+                        {
+                            c.setBackground(new Color(255, 214, 161));
+                        }
+                        else if (value.toString().contains("Tutorial"))
+                        {
+                            c.setBackground(new Color(177, 255, 161));
+                        }
+                        else if (value.toString().contains("Seminar"))
+                        {
+                            c.setBackground(new Color(255, 161, 161));
+                        }
+
                         c.setFont(c.getFont().deriveFont(Font.BOLD, 14f));
                     }
                     //set time column to a light gray to differentiate from other cells
@@ -219,7 +240,7 @@ public class TimetableGUI
     }
     private TimeRowMap tmr;
 
-    private final JFrame frame = new JFrame("Timetable Management System");
+    private JFrame frame;
     private final JPanel mainPanel = new JPanel();
     private final JMenuBar menuBar = new JMenuBar();
     private final JMenu fileMenu = new JMenu("File");

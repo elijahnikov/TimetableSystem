@@ -193,7 +193,8 @@ class FilePersistence: Persistence()
                 ManageProgrammeGUI.ph.addProgramme(p!!)
             }
             scanner.close()
-        } catch (e: FileNotFoundException)
+        }
+        catch (e: FileNotFoundException)
         {
             println("File not found. Please ensure you save some data before loading.")
         }
@@ -236,7 +237,8 @@ class FilePersistence: Persistence()
 
             }
             scanner.close()
-        } catch (e: FileNotFoundException)
+        }
+        catch (e: FileNotFoundException)
         {
             println("File not found. Please ensure you save some data before loading.")
         }
@@ -281,7 +283,8 @@ class FilePersistence: Persistence()
 
             }
             scanner.close()
-        } catch (e: FileNotFoundException)
+        }
+        catch (e: FileNotFoundException)
         {
             println("File not found. Please ensure you save some data before loading.")
         }

@@ -23,6 +23,9 @@ public class ManageModuleGUI
                     mh,
                     model
             );
+
+            nameField.setText("");
+            codeField.setText("");
         });
 
         //changing year select combo box depending on which type of programme is selected
@@ -48,11 +51,11 @@ public class ManageModuleGUI
         yearSelect.setModel(undergraduateYearSelectModel);
 
         //sizing
-        centerPanel.setMinimumSize(new Dimension(300, 350));
+        centerPanel.setMinimumSize(new Dimension(300, 400));
         centerPanel.setMaximumSize(centerPanel.getMinimumSize());
         centerPanel.setPreferredSize(centerPanel.getMinimumSize());
 
-        topPanel.setMinimumSize(new Dimension(500, 250));
+        topPanel.setMinimumSize(new Dimension(500, 330));
         topPanel.setMaximumSize(topPanel.getMinimumSize());
         topPanel.setPreferredSize(topPanel.getMinimumSize());
 

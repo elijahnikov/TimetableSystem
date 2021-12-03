@@ -27,6 +27,9 @@ public class ManageProgrammeGUI
                     ph,
                     model
             );
+
+            nameField.setText("");
+            codeField.setText("");
         });
 
         //sizing

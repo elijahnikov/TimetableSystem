@@ -106,7 +106,7 @@ public class MainGUI {
 
         frame.setJMenuBar(menuBar);
 
-        frame.setMinimumSize(new Dimension(700, 640));
+        frame.setMinimumSize(new Dimension(700, 740));
         frame.setPreferredSize(new Dimension(frame.getMinimumSize()));
         frame.setResizable(false);
         frame.pack();
