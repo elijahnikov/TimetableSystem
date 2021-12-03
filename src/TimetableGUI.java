@@ -82,6 +82,12 @@ public class TimetableGUI
         model = new DefaultTableModel(null, days) {};
         timetable = new JTable(model)
         {
+            //disable cell editing in timetable through override
+            public boolean isCellEditable(int row, int column)
+            {
+                return false;
+            }
+
             //override function for setting color for cells containing activities
             //code referenced and modified from: https://coderedirect.com/questions/354017/jtable-set-cell-color-at-specific-value
             @Override
@@ -96,19 +102,19 @@ public class TimetableGUI
                     {
                         if (value.toString().contains("Lab"))
                         {
-                            c.setBackground(new Color(161, 197, 255));
+                            c.setBackground(new Color(161, 197, 255)); // blue
                         }
                         else if (value.toString().contains("Lecture"))
                         {
-                            c.setBackground(new Color(255, 214, 161));
+                            c.setBackground(new Color(255, 214, 161)); //orange
                         }
                         else if (value.toString().contains("Tutorial"))
                         {
-                            c.setBackground(new Color(177, 255, 161));
+                            c.setBackground(new Color(177, 255, 161)); //green
                         }
                         else if (value.toString().contains("Seminar"))
                         {
-                            c.setBackground(new Color(255, 161, 161));
+                            c.setBackground(new Color(255, 161, 161)); //red
                         }
 
                         c.setFont(c.getFont().deriveFont(Font.BOLD, 14f));
